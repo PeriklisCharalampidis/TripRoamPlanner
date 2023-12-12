@@ -37,6 +37,9 @@ class Trip
     #[ORM\OneToMany(mappedBy: 'fk_trip', targetEntity: JournalPost::class)]
     private Collection $fk_journal_post;
 
+    #[ORM\ManyToOne(inversedBy: 'fk_trips')]
+    private ?User $fk_user = null;
+
     public function __construct()
     {
         $this->fk_activities = new ArrayCollection();
@@ -171,6 +174,18 @@ class Trip
                 $fkJournalPost->setFkTrip(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getFkUser(): ?User
+    {
+        return $this->fk_user;
+    }
+
+    public function setFkUser(?User $fk_user): static
+    {
+        $this->fk_user = $fk_user;
 
         return $this;
     }
