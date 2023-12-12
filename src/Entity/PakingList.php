@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PakingListRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PakingListRepository::class)]
@@ -18,6 +20,14 @@ class PakingList
 
     #[ORM\Column]
     private ?bool $isPredefined = null;
+
+    #[ORM\ManyToMany(targetEntity: Trip::class, mappedBy: 'fk_paking_list')]
+    private Collection $fk_trips;
+
+    public function __construct()
+    {
+        $this->fk_trips = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -44,6 +54,33 @@ class PakingList
     public function setIsPredefined(bool $isPredefined): static
     {
         $this->isPredefined = $isPredefined;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Trip>
+     */
+    public function getFkTrips(): Collection
+    {
+        return $this->fk_trips;
+    }
+
+    public function addFkTrip(Trip $fkTrip): static
+    {
+        if (!$this->fk_trips->contains($fkTrip)) {
+            $this->fk_trips->add($fkTrip);
+            $fkTrip->addFkPakingList($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFkTrip(Trip $fkTrip): static
+    {
+        if ($this->fk_trips->removeElement($fkTrip)) {
+            $fkTrip->removeFkPakingList($this);
+        }
 
         return $this;
     }

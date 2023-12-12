@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ActivitiesRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -26,6 +28,14 @@ class Activities
 
     #[ORM\Column(length: 50)]
     private ?string $name = null;
+
+    #[ORM\ManyToMany(targetEntity: Trip::class, mappedBy: 'fk_activities')]
+    private Collection $fk_trips;
+
+    public function __construct()
+    {
+        $this->fk_trips = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -78,6 +88,33 @@ class Activities
     public function setName(string $name): static
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Trip>
+     */
+    public function getFkTrips(): Collection
+    {
+        return $this->fk_trips;
+    }
+
+    public function addFkTrip(Trip $fkTrip): static
+    {
+        if (!$this->fk_trips->contains($fkTrip)) {
+            $this->fk_trips->add($fkTrip);
+            $fkTrip->addFkActivity($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFkTrip(Trip $fkTrip): static
+    {
+        if ($this->fk_trips->removeElement($fkTrip)) {
+            $fkTrip->removeFkActivity($this);
+        }
 
         return $this;
     }

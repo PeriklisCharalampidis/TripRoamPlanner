@@ -23,6 +23,9 @@ class JournalPost
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
 
+    #[ORM\ManyToOne(inversedBy: 'fk_journal_post')]
+    private ?Trip $fk_trip = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -60,6 +63,18 @@ class JournalPost
     public function setImage(?string $image): static
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getFkTrip(): ?Trip
+    {
+        return $this->fk_trip;
+    }
+
+    public function setFkTrip(?Trip $fk_trip): static
+    {
+        $this->fk_trip = $fk_trip;
 
         return $this;
     }
