@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+<div class="container-fluid pt-4">
+    <div class="col col-sm-10 col-md-8 col-lg-6 mx-auto">
+        <h1>Register</h1>
+        {{ form_errors(registrationForm) }}
+        <div class="container-fluid border bg-light my-2">
+            {{ form_start(registrationForm) }}
+                {{ form_label(registrationForm.first_name) }}
+                {{ form_widget(registrationForm.first_name, { attr: { 'class': 'form-control' }  })}}
+                <div class="form-error text-danger" style="font-size: 0.9rem;">
+                    {{ form_errors(registrationForm.first_name) }}
+                </div>
+            {{ form_label(registrationForm.last_name) }}
+                {{ form_widget(registrationForm.last_name, { attr: { 'class': 'form-control' }  })}}
+                <div class="form-error text-danger" style="font-size: 0.9rem;">
+                    {{ form_errors(registrationForm.last_name) }}
+                </div>
+                
+            {{ form_label(registrationForm.email) }}
+                {{ form_widget(registrationForm.email, { attr: { 'class': 'form-control' }  })}}
+                <div class="form-error text-danger" style="font-size: 0.9rem;">
+                    {{ form_errors(registrationForm.email) }}
+                </div>
+            {# {{ form_label(registrationForm.image) }}
+            {{ form_widget(registrationForm.image, { attr: { 'class': 'form-control' }  })}}
+            <div class="form-error text-danger" style="font-size: 0.9rem;">
+                {{ form_errors(registrationForm.image) }}
+            </div> #}
+            {{ form_label(registrationForm.plainPassword) }}
+                {{ form_widget(registrationForm.plainPassword, { attr: { 'class': 'form-control' }  })}}
+                <div class="form-error text-danger" style="font-size: 0.9rem;">
+                    {{ form_errors(registrationForm.plainPassword) }}
+                </div>
+            <div class="d-flex flex-row">
+                <div class="pe-2">
+                {{ form_label(registrationForm.agreeTerms) }}
+                </div>
+                <div>
+                    {{ form_widget(registrationForm.agreeTerms, { attr: { 'class': 'form-check-input' }  })}}
+                </div>
+                
+            </div>
+            <div class="form-error text-danger" style="font-size: 0.9rem;">
+                {{ form_errors(registrationForm.agreeTerms) }}
+            </div>
+            <div class="w-100 d-flex justify-content-center">
+                <button type="submit" class="btn btn-outline-primary rounded-1 mx-2 my-2">Register</button>
+            </div>
+        {{ form_end(registrationForm) }}
+                    
+        </div>
+    </div>
+</div>
+{% endblock %}
