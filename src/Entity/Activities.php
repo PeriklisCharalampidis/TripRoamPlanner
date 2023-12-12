@@ -32,6 +32,9 @@ class Activities
     #[ORM\ManyToMany(targetEntity: Trip::class, mappedBy: 'fk_activities')]
     private Collection $fk_trips;
 
+    #[ORM\Column(length: 100)]
+    private ?string $destination_filter = null;
+
     public function __construct()
     {
         $this->fk_trips = new ArrayCollection();
@@ -115,6 +118,18 @@ class Activities
         if ($this->fk_trips->removeElement($fkTrip)) {
             $fkTrip->removeFkActivity($this);
         }
+
+        return $this;
+    }
+
+    public function getDestinationFilter(): ?string
+    {
+        return $this->destination_filter;
+    }
+
+    public function setDestinationFilter(string $destination_filter): static
+    {
+        $this->destination_filter = $destination_filter;
 
         return $this;
     }

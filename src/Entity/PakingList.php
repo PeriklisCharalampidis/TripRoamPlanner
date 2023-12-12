@@ -24,6 +24,9 @@ class PakingList
     #[ORM\ManyToMany(targetEntity: Trip::class, mappedBy: 'fk_paking_list')]
     private Collection $fk_trips;
 
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $season_filter = null;
+
     public function __construct()
     {
         $this->fk_trips = new ArrayCollection();
@@ -81,6 +84,18 @@ class PakingList
         if ($this->fk_trips->removeElement($fkTrip)) {
             $fkTrip->removeFkPakingList($this);
         }
+
+        return $this;
+    }
+
+    public function getSeasonFilter(): ?string
+    {
+        return $this->season_filter;
+    }
+
+    public function setSeasonFilter(?string $season_filter): static
+    {
+        $this->season_filter = $season_filter;
 
         return $this;
     }

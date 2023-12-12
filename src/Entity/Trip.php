@@ -40,6 +40,9 @@ class Trip
     #[ORM\ManyToOne(inversedBy: 'fk_trips')]
     private ?User $fk_user = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $image = null;
+
     public function __construct()
     {
         $this->fk_activities = new ArrayCollection();
@@ -186,6 +189,18 @@ class Trip
     public function setFkUser(?User $fk_user): static
     {
         $this->fk_user = $fk_user;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): static
+    {
+        $this->image = $image;
 
         return $this;
     }
