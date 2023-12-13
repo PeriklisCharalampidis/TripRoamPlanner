@@ -1,0 +1,7 @@
+h1 {
+  display: flex;
+  justify-content: center;
+  margin: 30px;
+  padding: 20px;
+  font-family: "Times New Roman", Times, serif;
+}

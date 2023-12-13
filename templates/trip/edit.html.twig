@@ -1,13 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Trip{% endblock %}
+{% block title %}Edit Trip
+{% endblock %}
 
 {% block body %}
-    <h1>Edit Trip</h1>
+	<h1>Edit Trip</h1>
+	{# <div class="d-flex justify-content-center"> #}
 
-    {{ include('trip/_form.html.twig', {'button_label': 'Update'}) }}
+	<div class="container">
+		{{ include('trip/_form.html.twig', {'button_label': 'Update'}) }}
+		<br>
+		{{ include('trip/_delete_form.html.twig') }}
+		<a href="{{ path('app_trip_index') }}">back to list</a>
 
-    <a href="{{ path('app_trip_index') }}">back to list</a>
 
-    {{ include('trip/_delete_form.html.twig') }}
+	</div>
 {% endblock %}

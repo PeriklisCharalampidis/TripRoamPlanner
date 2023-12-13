@@ -16,25 +16,35 @@ class TripType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name')
-            ->add('destination')
-            ->add('date_begin')
-            ->add('date_end')
-            ->add('fk_activities', EntityType::class, [
-                'class' => Activities::class,
-'choice_label' => 'id',
-'multiple' => true,
+            ->add('name', null, [
+                'attr' => ['class' => 'form-control ', "placeholder" => "give your trip a name"],
             ])
-            ->add('fk_paking_list', EntityType::class, [
-                'class' => PakingList::class,
-'choice_label' => 'id',
-'multiple' => true,
+            ->add('destination', null, [
+                'attr' => ['class' => 'form-control ', "placeholder" => "please add your destination"],
+
             ])
-            ->add('fk_user', EntityType::class, [
-                'class' => User::class,
-'choice_label' => 'id',
+            ->add('date_begin', null, [
+                'attr' => ['class' => 'form-control '],
+                "widget" => "single_text"
             ])
-        ;
+            ->add('date_end', null, [
+                'attr' => ['class' => 'form-control'],
+                "widget" => "single_text"
+            ]);
+        //             ->add('fk_activities', EntityType::class, [
+        //                 'class' => Activities::class,
+        // 'choice_label' => 'id',
+        // 'multiple' => true,
+        //             ])
+        // ->add('fk_paking_list', EntityType::class, [
+        //     'class' => PakingList::class,
+        //     'choice_label' => 'id',
+        //     'multiple' => true,
+        // ])
+        // ->add('fk_user', EntityType::class, [
+        //     'class' => User::class,
+        //     'choice_label' => 'id',
+        // ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

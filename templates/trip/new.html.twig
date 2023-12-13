@@ -1,11 +1,17 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Trip{% endblock %}
+{% block title %}New Trip
+{% endblock %}
 
 {% block body %}
-    <h1>Create new Trip</h1>
 
-    {{ include('trip/_form.html.twig') }}
 
-    <a href="{{ path('app_trip_index') }}">back to list</a>
+	<h1>Create new Trip</h1>
+	<div
+		class="container">
+		{# <div class="d-flex justify-content-center"> #}
+		{{ include('trip/_form.html.twig') }}
+
+		<a href=" {{ path('app_trip_index') }} ">back to list</a>
+	</div>
 {% endblock %}

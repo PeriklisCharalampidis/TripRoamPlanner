@@ -1,38 +1,33 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Trip{% endblock %}
+{% block title %}Trip
+{% endblock %}
 
 {% block body %}
-    <h1>Trip</h1>
+	<h1>
+		MyTrip</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ trip.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ trip.name }}</td>
-            </tr>
-            <tr>
-                <th>Destination</th>
-                <td>{{ trip.destination }}</td>
-            </tr>
-            <tr>
-                <th>Date_begin</th>
-                <td>{{ trip.dateBegin ? trip.dateBegin|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Date_end</th>
-                <td>{{ trip.dateEnd ? trip.dateEnd|date('Y-m-d') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
+	<div class="container">
 
-    <a href="{{ path('app_trip_index') }}">back to list</a>
+		<div class="card ">
 
-    <a href="{{ path('app_trip_edit', {'id': trip.id}) }}">edit</a>
+			<div class="card-body">
+				<img src="{{ trip.image }}" class="card-img-top" alt="...">
 
-    {{ include('trip/_delete_form.html.twig') }}
-{% endblock %}
+				<h5 class="card-title mt-3">{{ trip.name }}</h5>
+
+				<h5>Destination:</h5>
+				<p class="card-text">
+					{{ trip.destination }}</p>
+				<h5>Type:</h5>
+				<p class="card-text">{{ trip.dateBegin ? trip.dateBegin|date('Y-m-d') : '' }}</p>
+				<p class="card-text">{{ trip.dateEnd ? trip.dateEnd|date('Y-m-d') : '' }}</p>
+				<a class="btn btn-warning" href="{{ path('app_trip_edit', {'id': trip.id}) }}">edit</a>
+			</div>
+			<a href="{{ path('app_trip_index') }}">back to list</a>
+
+		</div>
+
+
+		{{ include('trip/_delete_form.html.twig') }}
+	{% endblock %}

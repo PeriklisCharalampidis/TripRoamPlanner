@@ -14,16 +14,22 @@ class ActivitiesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('location')
-            ->add('date')
-            ->add('isPredefined')
-            ->add('name')
-            ->add('fk_trips', EntityType::class, [
-                'class' => Trip::class,
-'choice_label' => 'id',
-'multiple' => true,
+            ->add('location', null, [
+                'attr' => ['class' => 'form-control']
             ])
-        ;
+            ->add('date', null, [
+                'attr' => ['class' => 'form-control '],
+                "widget" => "single_text"
+            ])
+            // ->add('isPredefined')
+            ->add('name', null, [
+                'attr' => ['class' => 'form-control']
+            ]);
+        // ->add('fk_trips', EntityType::class, [
+        //     'class' => Trip::class,
+        //     'choice_label' => 'id',
+        //     'multiple' => true,
+        // ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
