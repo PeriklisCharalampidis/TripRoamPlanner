@@ -1,21 +1,27 @@
 ////navbar///
 
+let scrolled = false;
+
 window.addEventListener('scroll', function() {
-  var navbar = document.getElementById('navbar');
-  var scrollPosition = window.scrollY;
+  let navbar = document.getElementById('navbar');
+  let scrollPosition = window.scrollY;
 
   if (scrollPosition > 100) {
     navbar.classList.add('fixed');
-        if (!scrolled){
-            navbar.style.transform = 'translateY(-70px)';  
-            setTimeout(function() {
-              navbar.style.transform = 'translateY(0)';
-              scrolled = true;
-              }, 200);                    }
-    } else {
+    if (!scrolled) {
+      navbar.style.transition = 'transform 0.2s';
+      navbar.style.transform = 'translateY(-70px)';
+      setTimeout(function() {
+        navbar.style.transform = 'translateY(0)';
+        scrolled = true;
+      }, 200);
+    }
+  } else {
     navbar.classList.remove('fixed');
+    scrolled = false; 
   }
 });
+
 
 
 ///testimonials///
