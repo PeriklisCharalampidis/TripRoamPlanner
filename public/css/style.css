@@ -1,3 +1,162 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
+
+:root {
+  --orange: #fc2f00;
+}
+
+/* navbar */ 
+.navbar {
+  background: rgb(252,47,0);
+  background: linear-gradient(90deg, rgba(252,47,0,1) 0%, rgba(255,255,255,1) 80%);
+  font-size: 1rem;
+  color: #fff;
+}
+
+.navbar .logotext {
+  font-family: 'Ubuntu', sans-serif;
+  font-weight: bold;
+  font-size: 1.8rem;
+  color: #fff;
+}
+
+.navbar .nav-item .nav-link {
+  color: #fff;
+}
+
+.navbar .nav-item .leftlink {
+  color: var(--orange);
+  font-weight: bold;
+}
+
+.navbar .leftlink:hover {
+  border-bottom: 2px solid var(--orange);
+}
+
+#navbar.fixed {
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+/*hero bootstrap*/
+
+.hero .hero_heading {
+  color: var(--orange);
+  font-family: 'Ubuntu', sans-serif;
+ }
+
+ .hero .btn {
+  background-color: var(--orange);
+  border: var(--orange);
+ }
+
+ .hero .btn:hover {
+  background-color: #fff;
+  color: var(--orange);
+  border: 2px solid var(--orange);
+ }
+
+/*features*/
+
+.features h1 {
+  font-family: 'Ubuntu', sans-serif;
+}
+
+.features img {
+  width: 50%;
+}
+
+.features h3 {
+  height: 4.3rem; 
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+}
+
+/*testimonials*/
+
+.reviews h1 {
+  font-family: 'Ubuntu', sans-serif;
+}
+
+.testimonial-container {
+  background-color: var(--orange);
+  color: #fff;
+  border-radius: 15px;
+  margin: 20px auto;
+  padding: 50px 80px;
+  max-width: 768px;
+  position: relative;
+}
+
+.fa-quote {
+  color: rgba(255,255,255,0.3);
+  font-size: 20px;
+  position: absolute;
+  top: 70px;
+}
+
+.fa-quote-right {
+  left: 40px;
+}
+.fa-quote-left {
+  right: 40px;
+}
+
+.testimonial {
+  line-height: 28px;
+  text-align: justify;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-image {
+  border-radius: 50%;
+  height: 75px;
+  width: 75px;
+  object-fit: cover;
+}
+
+.user-details {
+  margin-left: 10px;
+}
+
+.user h4 {
+  margin: 0;
+}
+
+.user .role {
+  font-weight: normal;
+  margin: 10px 0;
+}
+
+.progress-bar {
+  background-color: #fff;
+  height: 4px;
+  width: 100%;
+  animation: grow 10s linear infinite;
+  transform-origin: left;
+}
+
+@keyframes grow {
+  0% {
+    transform: scaleX(0);
+  }
+}
+
+@media(max-width: 768px) {
+  .testimonail-container {
+    padding: 20px 30px;
+  }
+
+  .fa-quote {
+    display: none;
+  }
+}
+/*///////*/
 h1 {
   display: flex;
   justify-content: center;

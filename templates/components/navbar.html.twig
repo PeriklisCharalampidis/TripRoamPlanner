@@ -1,9 +1,10 @@
     <!-- -------------- -->
     <!-- --- navbar --- -->
-    <!-- -------------- -->
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <!-- -------------- --> 
+    <nav class="navbar navbar-expand-lg top" id="navbar">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">TripPlanner</a>
+        <img class="ms-1 me-2" src="{{ asset('assets/logo_roam.png') }}" alt="logo" style="width: 60px;">
+            <a class="navbar-brand logotext" href="#">roam</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -40,11 +41,11 @@
                         <a class="nav-link align-self-center" href="/logout">Logout</a>
                       </li>
                     {% else %}
-                      <li class="nav-item d-flex">
-                        <a class="nav-link align-self-center" href="{{ path('app_register') }}">Register</a>
+                      <li class="nav-item d-flex me-2">
+                        <a class="nav-link align-self-center leftlink" href="{{ path('app_login') }}">Login</a>
                       </li>
-                      <li class="nav-item d-flex">
-                        <a class="nav-link align-self-center" href="{{ path('app_login') }}">Login</a>
+                       <li class="nav-item d-flex me-2">
+                        <a class="nav-link align-self-center leftlink" href="{{ path('app_register') }}">Register</a>
                       </li>
                     {% endif %}
                   </ul>            

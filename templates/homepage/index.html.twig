@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Welcome to ROAM!{% endblock %}
+
+{% block body %}
+<!--hero-->
+<div class="container col-xxl-8 px-4 py-2 hero">
+    <div class="row flex-lg-row-reverse align-items-center g-5 py-2">
+      <div class="col-10 col-sm-8 col-lg-6">
+        <img src="{{ asset('assets/hero_car.png') }}" class="d-block mx-lg-auto img-fluid" alt="Hero" width="700" height="500" loading="lazy">
+      </div>
+      <div class="col-lg-6">
+        <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3 text-center hero_heading">Plan, Explore, and Experience the World with Ease</h1>
+        <p class="lead text-center">Welcome to Roam - Your Gateway to Seamless Adventures! Discover Your Next Unforgettable Journey Today!</p>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+          <button type="button" class="btn btn-primary btn-lg px-4 me-md-2 mt-2">Create your own trip</button>
+        </div>
+      </div>
+    </div>
+</div>
+<!--features-->
+<div class="container text-center features">
+    <h1>Features to replace all your other tools</h1>
+    <div class="row gap-2">
+        <div class="col">
+            <img src="{{ asset('assets/1.png') }}" class="img-fluid" alt="Feature 1">
+            <h3>Plan activities with one click</h3>
+            <p>We made our research so that you don't have to</p>
+        </div>
+        <div class="col">
+            <img src="{{ asset('assets/2.png') }}" class="img-fluid" alt="Feature 2">
+            <h3>Share your trip journal with friends</h3>
+            <p>Anytime from anywhere</p>
+        </div>
+        <div class="col">
+            <img src="{{ asset('assets/3.png') }}" class="img-fluid" alt="Feature 3">
+            <h3>Get personalized suggestions</h3>
+            <p>Find the best places to visit with smart recommendations based on your itinerary</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <img src="{{ asset('assets/4.png') }}" class="img-fluid" alt="Feature 4">
+            <h3>Edit your trips conviniently</h3>
+            <p>We made it easy to edit, add or delete any details</p>
+        </div>
+        <div class="col">
+            <img src="{{ asset('assets/5.png') }}" class="img-fluid" alt="Feature 5">
+            <h3>Checklist for packing</h3>
+            <p>We provide you with suggested packing list depending on your destination</p>
+        </div>
+        <div class="col">
+            <img src="{{ asset('assets/6.png') }}" class="img-fluid" alt="Feature 6">
+            <h3>Import your flight and hotel reservation</h3>
+            <p>No more jumping from one app to another</p>
+        </div>
+    </div>
+</div>
+<!--testimonials-->
+<div class="container reviews mt-5">
+    <h1>Testimonials & Reviews</h1>
+    <div class="testimonial-container">
+      <div class="progress-bar"></div>
+      <div class="fas fa-quote-right fa-quote"></div>
+      <div class="fas fa-quote-left fa-quote"></div>
+      <p class="testimonial">
+        Effortlessly crafted my dream trip! From personalized itineraries to a tailored packing list, every detail was covered. Seamless and stress-free!
+      </p>
+      <div class="user">
+        <img
+          src="https://randomuser.me/api/portraits/women/90.jpg"
+          alt="user"
+          class="user-image"
+        />
+        <div class="user-details">
+          <h4 class="username">Miyah Smith</h4>
+          <p class="role">Experienced traveller</p>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+{% endblock %}
