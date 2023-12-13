@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Trip;
 use App\Form\TripType;
+use App\Entity\Activities;
 use App\Repository\TripRepository;
+
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,6 +16,12 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/trip')]
 class TripController extends AbstractController
 {
+    private $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
     #[Route('/', name: 'app_trip_index', methods: ['GET'])]
     public function index(TripRepository $tripRepository): Response
     {
@@ -23,22 +31,36 @@ class TripController extends AbstractController
     }
 
     #[Route('/new', name: 'app_trip_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request): Response
     {
         $trip = new Trip();
         $form = $this->createForm(TripType::class, $trip);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($trip);
-            $entityManager->flush();
+            $this->entityManager->persist($trip);
+            $this->entityManager->flush();
 
-            return $this->redirectToRoute('app_trip_index', [], Response::HTTP_SEE_OTHER);
+            $destination = $trip->getDestination();
+
+            $activities = $this->entityManager->getRepository(Activities::class)
+                ->findBy(['destination_filter' => $destination]);
+
+            return $this->redirectToRoute('app_trip_index', [
+                'trips' => $trip,
+                'activities' => $activities,
+            ], Response::HTTP_SEE_OTHER);
+
+            // Render a template to display the activities
+            //return $this->render('trip/index.html.twig', [
+                //'trips' => $trip,
+                //'activities' => $activities,
+            //]);
         }
 
+        // Render the form template for creating a new trip
         return $this->render('trip/new.html.twig', [
-            'trip' => $trip,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 
