@@ -32,10 +32,7 @@ body {
 }
 .navbar .nav-text {
   color: var(--orange);
-}
-
-.navbar a .logout {
-  color: var(--orange);
+  text-shadow: 1px 1px 2px #999898;
 }
 
 .navbar .leftlink:hover {
@@ -186,7 +183,6 @@ body {
   background: rgb(255,255,255);
   background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(252,47,0,1) 80%);
   color: #fff;
-  position: fixed;
   bottom: 0;
   width: 100%;
 }
