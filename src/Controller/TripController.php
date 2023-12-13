@@ -23,10 +23,21 @@ class TripController extends AbstractController
         $this->entityManager = $entityManager;
     }
     #[Route('/', name: 'app_trip_index', methods: ['GET'])]
-    public function index(TripRepository $tripRepository): Response
+    public function index2(TripRepository $tripRepository, Request $request): Response
     {
         return $this->render('trip/index.html.twig', [
             'trips' => $tripRepository->findAll(),
+        ]);
+    }
+    #[Route('/{id}', name: 'app_my_trip_index', methods: ['GET'])]
+    public function index(TripRepository $tripRepository, Request $request): Response
+    {
+        $user_id = $request->get('id');
+
+        $trips = $tripRepository->findBy(['fk_user' => $user_id]);
+
+        return $this->render('trip/index.html.twig', [
+            'trips' => $trips,
         ]);
     }
 
