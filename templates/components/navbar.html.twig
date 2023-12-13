@@ -14,7 +14,7 @@
                         <a class="nav-link active" aria-current="page" href="/trip">My trips</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/user">My account</a>
+                        <a class="nav-link active" aria-current="page" href="{{ path('app_user_show',{'id':app.user.id}) }}">My account</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
