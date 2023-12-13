@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Trip;
 use App\Entity\JournalPost;
 use App\Form\JournalPostType;
 use App\Repository\JournalPostRepository;
@@ -23,28 +24,39 @@ class JournalPostController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_journal_trip', methods: ['GET'])]
-    public function user(JournalPostRepository $journalPostRepository, Request $request): Response
+    public function trip(JournalPostRepository $journalPostRepository, Request $request): Response
     {
-        $fk_trip_id = $request->get('id');
-        $posts = $journalPostRepository->findBy(['id' => $fk_trip_id]);
+        $trip_id = $request->get('id');
+        $journal_posts = $journalPostRepository->findBy(['fk_trip' => $trip_id]);
         return $this->render('journal_post/index.html.twig', [
-            'journal_posts' => $posts,
+            'journal_posts' => $journal_posts,
+            // 'trip_id' => $trip_id,
             // 'selectedType' => $fk_trip_id,
         ]);
     }
 
-    #[Route('/new', name: 'app_journal_post_new', methods: ['GET', 'POST'])]
+    #[Route('/new/{id}', name: 'app_journal_post_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $fk_trip = $request->get('id');
+        $trip = $entityManager->getRepository(Trip::class)->find($fk_trip);
         $journalPost = new JournalPost();
-        $form = $this->createForm(JournalPostType::class, $journalPost);
+
+        // $journalPost->setFkTrip($entityManager->getRepository(Trip::class)->find($fk_trip));
+
+        $form = $this->createForm(JournalPostType::class, $journalPost, [
+            'fk_trip_default' => $fk_trip,
+        ]);
+                
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $journalPost->setFkTrip($trip);
+            // $journalPost->setFkTrip($entityManager->getRepository(Trip::class)->find($fk_trip));
             $entityManager->persist($journalPost);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_journal_post_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_journal_post_index', ["id"=>$fk_trip], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('journal_post/new.html.twig', [
@@ -58,6 +70,7 @@ class JournalPostController extends AbstractController
     {
         return $this->render('journal_post/show.html.twig', [
             'journal_post' => $journalPost,
+            
         ]);
     }
 

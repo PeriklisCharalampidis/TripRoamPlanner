@@ -5,35 +5,35 @@
 {% block body %}
     <h1>JournalPost index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Date</th>
-                <th>Text</th>
-                <th>Image</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
+    
+        <div class="container-fluid">
+        {# get name of trip instead of just the id is missing #}
+        <h1 class="text-center">Post {{ app.request.get('id') }}</h1>
+        {# <div class="row row-cols-lg-5 row-cols-md-4 row-cols-sm-2 row-cols-xs-1 d-flex justify-content-center"> #}
         {% for journal_post in journal_posts %}
-            <tr>
-                <td>{{ journal_post.id }}</td>
-                <td>{{ journal_post.date ? journal_post.date|date('Y-m-d') : '' }}</td>
-                <td>{{ journal_post.text }}</td>
-                <td>{{ journal_post.image }}</td>
-                <td>
-                    <a href="{{ path('app_journal_post_show', {'id': journal_post.id}) }}">show</a>
-                    <a href="{{ path('app_journal_post_edit', {'id': journal_post.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_journal_post_new') }}">Create new</a>
+        
+        <div class="row">
+            <div class="col-md-5">
+                <img class='img-fluid pb-2' src='{{ asset('img/' ~journal_post.image) }}' alt='...'>
+            </div>
+            <div class="col-md-7">
+                <p class="m-0 py-1">{{ journal_post.text }}</p>
+                <p class="m-0 py-1">Date {{ journal_post.date ? journal_post.date|date('Y-m-d') : '' }}</p>
+                <hr>
+                <div class="d-flex justify-content-center">
+                    <a class="btn btn-warning mx-1 my-2" href="{{ path('app_journal_post_edit', {'id': journal_post.id}) }}">edit</a>
+                </div>
+            </div>
+            <div>
+            {% else %}
+                <p>
+                    no records found
+                </p>
+            {% endfor %}
+            </div>
+        </div>
+        <div class="d-flex justify-content-center">
+            <a class="btn btn-primary mt-4 align-self-center" style="width: 10rem;" href="{{ path('app_journal_post_new', {'id': app.request.get('id')} ) }}">Create new post</a>
+        </div>
+    </div>
 {% endblock %}

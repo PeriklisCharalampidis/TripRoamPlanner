@@ -8,6 +8,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 class JournalPostType extends AbstractType
 {
@@ -17,10 +18,12 @@ class JournalPostType extends AbstractType
             ->add('date')
             ->add('text')
             ->add('image')
-            ->add('fk_trip', EntityType::class, [
-                'class' => Trip::class,
-'choice_label' => 'id',
-            ])
+            // ->add('fk_trip', EntityType::class, [
+            //     'class' => Trip::class,
+            //     'choice_label' => 'id',
+            // ])
+           ;
+            
         ;
     }
 
@@ -28,6 +31,7 @@ class JournalPostType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => JournalPost::class,
+            'fk_trip_default' => null, // Define the custom option here
         ]);
     }
 }

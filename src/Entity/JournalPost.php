@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\JournalPostRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Integer;
 
 #[ORM\Entity(repositoryClass: JournalPostRepository::class)]
 class JournalPost
@@ -25,6 +26,7 @@ class JournalPost
 
     #[ORM\ManyToOne(inversedBy: 'fk_journal_post')]
     private ?Trip $fk_trip = null;
+    // private ?int $fk_trip = null;
 
     public function getId(): ?int
     {
@@ -66,6 +68,7 @@ class JournalPost
 
         return $this;
     }
+    
 
     public function getFkTrip(): ?Trip
     {
@@ -78,4 +81,6 @@ class JournalPost
 
         return $this;
     }
+
+    
 }
