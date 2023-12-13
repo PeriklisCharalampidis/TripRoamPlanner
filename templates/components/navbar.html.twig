@@ -10,10 +10,11 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
+                     {% if app.user %}
+                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="{{ path('app_trip_index',{'id':app.user.id}) }}">My trips</a>
                     </li>
-                    {% if app.user %}
+                   
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="{{ path('app_user_show',{'id':app.user.id}) }}">My account</a>
                     </li>
@@ -32,7 +33,7 @@
                 </ul>
                 <ul class="navbar-nav mb-2 mb-lg-0">
                     {% if app.user %}
-                      <li class="nav-item d-flex">
+                      <li class="nav-item d-flex nav-text">
                         <p class="align-self-center m-0 ">You're logged in as <strong>{{ app.user.email }}</strong></p>
                       </li>
                     {% endif %}
@@ -40,7 +41,7 @@
                   <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     {% if app.user %}
                       <li class="nav-item d-flex">
-                        <a class="nav-link align-self-center" href="/logout">Logout</a>
+                        <a class="nav-link align-self-center logout" href="/logout">Logout</a>
                       </li>
                     {% else %}
                       <li class="nav-item d-flex me-2">

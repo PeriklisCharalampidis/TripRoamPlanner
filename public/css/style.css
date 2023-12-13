@@ -4,6 +4,9 @@
   --orange: #fc2f00;
 }
 
+body {
+  height: 100%;
+}
 /* navbar */ 
 .navbar {
   background: rgb(252,47,0);
@@ -27,6 +30,13 @@
   color: var(--orange);
   font-weight: bold;
 }
+.navbar .nav-text {
+  color: var(--orange);
+}
+
+.navbar a .logout {
+  color: var(--orange);
+}
 
 .navbar .leftlink:hover {
   border-bottom: 2px solid var(--orange);
@@ -36,6 +46,12 @@
   position: fixed;
   top: 0;
   width: 100%;
+}
+
+@media(max-width: 768px) {
+  .navbar .nav-item .leftlink {
+    color: #fff;
+  }
 }
 
 /*hero bootstrap*/
@@ -72,6 +88,12 @@
   text-overflow: ellipsis; 
 }
 
+@media(max-width: 768px) {
+  .features h3 {
+    height: 8rem;
+  }
+}
+
 /*testimonials*/
 
 .reviews h1 {
@@ -82,24 +104,24 @@
   background-color: var(--orange);
   color: #fff;
   border-radius: 15px;
-  margin: 20px auto;
-  padding: 50px 80px;
+  margin: 1.25rem auto;
+  padding: 3.1rem 5rem;
   max-width: 768px;
   position: relative;
 }
 
 .fa-quote {
   color: rgba(255,255,255,0.3);
-  font-size: 20px;
+  font-size: 1.25rem;
   position: absolute;
-  top: 70px;
+  top: 4.3rem;
 }
 
 .fa-quote-right {
-  left: 40px;
+  left: 2.5rem;
 }
 .fa-quote-left {
-  right: 40px;
+  right: 2.5rem;
 }
 
 .testimonial {
@@ -155,6 +177,18 @@
   .fa-quote {
     display: none;
   }
+}
+
+/* footer */ 
+
+.footer {
+  height: 20vh;
+  background: rgb(255,255,255);
+  background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(252,47,0,1) 80%);
+  color: #fff;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }
 /*///////*/
 h1 {
