@@ -22,6 +22,17 @@ class JournalPostController extends AbstractController
         ]);
     }
 
+    #[Route('/{id}', name: 'app_journal_trip', methods: ['GET'])]
+    public function user(JournalPostRepository $journalPostRepository, Request $request): Response
+    {
+        $fk_trip_id = $request->get('id');
+        $posts = $journalPostRepository->findBy(['id' => $fk_trip_id]);
+        return $this->render('journal_post/index.html.twig', [
+            'journal_posts' => $posts,
+            // 'selectedType' => $fk_trip_id,
+        ]);
+    }
+
     #[Route('/new', name: 'app_journal_post_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
