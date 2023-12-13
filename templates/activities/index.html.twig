@@ -10,6 +10,7 @@
 		<thead>
 			<tr>
 				<th>Id</th>
+				<th>destination_filter</th>
 				<th>Location</th>
 				<th>Date</th>
 				<th>IsPredefined</th>
@@ -21,6 +22,7 @@
 			{% for activity in activities %}
 				<tr>
 					<td>{{ activity.id }}</td>
+					<td>{{ activity.destinationFilter }}</td>
 					<td>{{ activity.location }}</td>
 					<td>{{ activity.date ? activity.date|date('Y-m-d') : '' }}</td>
 					<td>{{ activity.isPredefined ? 'Yes' : 'No' }}</td>

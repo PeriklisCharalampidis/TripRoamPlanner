@@ -30,6 +30,10 @@ class TripType extends AbstractType
             ->add('date_end', null, [
                 'attr' => ['class' => 'form-control'],
                 "widget" => "single_text"
+            ])
+            ->add('fk_user', EntityType::class, [
+            'class' => User::class,
+            'choice_label' => 'id',
             ]);
         //             ->add('fk_activities', EntityType::class, [
         //                 'class' => Activities::class,
@@ -41,10 +45,7 @@ class TripType extends AbstractType
         //     'choice_label' => 'id',
         //     'multiple' => true,
         // ])
-        // ->add('fk_user', EntityType::class, [
-        //     'class' => User::class,
-        //     'choice_label' => 'id',
-        // ]);
+        //
     }
 
     public function configureOptions(OptionsResolver $resolver): void

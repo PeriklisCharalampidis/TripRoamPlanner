@@ -18,10 +18,20 @@ class ActivitiesController extends AbstractController
     public function index(ActivitiesRepository $activitiesRepository): Response
     {
         return $this->render('activities/index.html.twig', [
-            'activities' => $activitiesRepository->findAll(),
+            'activities' => $activitiesRepository->findBy('fk_user'),
         ]);
     }
+    #[Route('/{destination}', name: 'app_trip', methods: ['GET'])]
+    public function user(ActivitiesRepository $activitiesRepository, Request $request): Response
+    {
+        $trip_destination = $request->get('destination');
 
+        $activities = $activitiesRepository->findBy(['destination_filter' => $trip_destination]);
+        return $this->render('activities/index.html.twig', [
+            'activities' => $activities,
+
+        ]);
+    }
     #[Route('/new', name: 'app_activities_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {

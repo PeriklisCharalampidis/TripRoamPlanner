@@ -23,7 +23,7 @@
 
 						<a class="btn btn-success" href="{{ path('app_trip_show', {'id': trip.id}) }}">Details</a>
 						<a class="btn btn-warning" href="{{ path('app_trip_edit', {'id': trip.id}) }}">edit</a>
-						<a class="btn btn-secondary" href="{{ path('app_activities_index', {'id': trip.id}) }}">Itinerary</a>
+						<a class="btn btn-secondary" href="{{ path('app_trip', {'destination': trip.destination}) }}">Itinerary</a>
 						<a class="btn btn-secondary" href="{{ path('app_paking_list_index', {'id': trip.id}) }}">Packing List</a>
 						<a class="btn btn-secondary" href="{{ path('app_journal_trip', {'id': trip.id}) }}">Journal</a>
 					</div>
