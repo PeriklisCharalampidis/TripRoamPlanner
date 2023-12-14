@@ -8,8 +8,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Validator\Constraints\File;
-
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 
 class JournalPostType extends AbstractType
@@ -17,32 +17,39 @@ class JournalPostType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('date')
-            ->add('text')
-            ->add('image', FileType::class, [
-                'attr' => ['accept'=> 'image/*'],
-                'label' => 'Image',
-                'mapped' => false,
-                'required' => false,
-                'constraints' => [
-                    new File([
-                        'maxSize' => '1400k',
-                        'mimeTypes' => [
-                            'iamge/png',
-                            'image/jpg',
-                            'image/jpeg',
-                        ],
-                        'mimeTypesMessage' => 'Please upload a valid image',
-                    ])
-                ],
-            ])
+        ->add('date', DateType::class, [
+            'widget' => 'single_text',
+            'attr' => ['class' => 'form-control'],
+            'label' => 'Date',
+        ])
+        ->add('text', TextareaType::class, [
+            'attr' => ['class' => 'form-control', 'rows' => 5],
+            'label' => 'Text',
+        ])
+        ->add('image', FileType::class, [
+            'attr' => ['class' => 'form-control', 'accept' => 'image/*'],
+            'label' => 'Image',
+            'mapped' => false,
+            'required' => false,
+            'constraints' => [
+                new File([
+                    'maxSize' => '1400k',
+                    'mimeTypes' => [
+                        'image/png',
+                        'image/jpg',
+                        'image/jpeg',
+                    ],
+                    'mimeTypesMessage' => 'Please upload a valid image',
+                ])
+            ],
+        ])
+        // You can uncomment and customize the following if you want to include the trip selection
+        // ->add('fk_trip', EntityType::class, [
+        //     'class' => Trip::class,
+        //     'choice_label' => 'id',
+        //     'attr' => ['class' => 'form-control'],
+        // ])
 
-            // ->add('fk_trip', EntityType::class, [
-            //     'class' => Trip::class,
-            //     'choice_label' => 'id',
-            // ])
-           ;
-            
         ;
     }
 

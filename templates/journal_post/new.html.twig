@@ -7,5 +7,7 @@
 
     {{ include('journal_post/_form.html.twig') }}
 
-    <a href="{{ path('app_journal_post_index') }}">back to list</a>
+    <a href="{{ path('app_journal_trip', {'id': trip.id}) }}">back to list</a>
 {% endblock %}
+
+

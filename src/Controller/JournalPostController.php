@@ -82,6 +82,8 @@ class JournalPostController extends AbstractController
         return $this->render('journal_post/new.html.twig', [
             'journal_post' => $journalPost,
             'form' => $form,
+            'trip' => $trip,
+
         ]);
     }
 
