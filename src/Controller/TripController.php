@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Trip;
 use App\Form\TripType;
 use App\Entity\Activities;
+use App\Entity\User;
 use App\Repository\TripRepository;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -38,6 +39,9 @@ class TripController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $user = $this->getUser();
+            $trip->setFkUser($user);
             $this->entityManager->persist($trip);
             $this->entityManager->flush();
 
@@ -53,8 +57,8 @@ class TripController extends AbstractController
 
             // Render a template to display the activities
             //return $this->render('trip/index.html.twig', [
-                //'trips' => $trip,
-                //'activities' => $activities,
+            //'trips' => $trip,
+            //'activities' => $activities,
             //]);
         }
 
@@ -106,7 +110,7 @@ class TripController extends AbstractController
     #[Route('/{id}/delete', name: 'app_trip_delete', methods: ['POST'])]
     public function delete(Request $request, Trip $trip, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$trip->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $trip->getId(), $request->request->get('_token'))) {
             $entityManager->remove($trip);
             $entityManager->flush();
         }

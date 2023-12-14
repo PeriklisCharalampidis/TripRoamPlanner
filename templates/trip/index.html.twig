@@ -18,10 +18,13 @@
 						{# <img src="{{ trip.image }}" class="card-img-top" alt="..."> #}
 						<h5 class="card-title">{{ trip.name }}</h5>
 						<p class="card-text">{{ trip.destination }}</p>
-						<p class="card-text">From {{ trip.dateBegin ? trip.dateBegin|date('Y-m-d') : '' }} until {{ trip.dateEnd ? trip.dateEnd|date('Y-m-d') : '' }}</p>
+						<p class="card-text">From
+							{{ trip.dateBegin ? trip.dateBegin|date('Y-m-d') : '' }}
+							until
+							{{ trip.dateEnd ? trip.dateEnd|date('Y-m-d') : '' }}</p>
 
 						{#<a class="btn btn-success" href="{{ path('app_trip_show', {'id': trip.id}) }}">Details</a>
-						<a class="btn btn-warning" href="{{ path('app_trip_edit', {'id': trip.id}) }}">edit</a>#}
+												<a class="btn btn-warning" href="{{ path('app_trip_edit', {'id': trip.id}) }}">edit</a>#}
 						<div class="btn-group">
 							<a class="btn btn-outline-dark" href="{{ path('app_trip', {'destination': trip.destination}) }}">Itinerary</a>
 
@@ -40,9 +43,9 @@
 							{% endif %}
 
 							{# Output the link with the season parameter #}
-							<a class="btn btn-outline-dark" href="{{ path('app_trips_packinglist', {'season': season}) }}">Packing List</a> {#  for {{ season|capitalize }} #}
+						{# <a class="btn btn-outline-dark" href="{{ path('app_trips_packinglist', {'season': season}) }}">Packing List</a>  for {{ season|capitalize }} #}
 
-							<a class="btn btn-outline-dark" href="{{ path('app_journal_trip', {'id': trip.id}) }}">Journal</a>
+							{# <a class="btn btn-outline-dark" href="{{ path('app_journal_trip', {'id': trip.id}) }}">Journal</a> #}
 						</div>
 					</div>
 				</div>

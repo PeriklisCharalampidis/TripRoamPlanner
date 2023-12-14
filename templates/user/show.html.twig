@@ -1,42 +1,41 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}User{% endblock %}
+{% block title %}User
+{% endblock %}
 
 {% block body %}
-    <h1>User</h1>
+	<h1>Hello,
+		{{ user.firstName }}</h1>
+	<div class="container">
+		<div class="row py-2">
+			<div class="col-10 col-sm-8 col-lg-6">
+				<img src="{{ asset('images/travel.png') }}" class="d-block mx-lg-auto img-fluid" alt="..." width="700" height="500" loading="lazy">
+			</div>
+		</div>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ user.id }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ user.email }}</td>
-            </tr>
-            <tr>
-                <th>Roles</th>
-                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-            </tr>
-            <tr>
-                <th>Password</th>
-                <td>{{ user.password }}</td>
-            </tr>
-            <tr>
-                <th>First_name</th>
-                <td>{{ user.firstName }}</td>
-            </tr>
-            <tr>
-                <th>Last_name</th>
-                <td>{{ user.lastName }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_user_index') }}">back to list</a>
-
-    <a href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a>
-
-    {{ include('user/_delete_form.html.twig') }}
-{% endblock %}
+		<ul class="col-2 col-sm-4 col-lg-6">
+			<li class="list-group-item d-flex justify-content-between align-items-start">
+				<div class="ms-2 me-auto">
+					<div class="fw-bold">First Name:</div>
+					{{ user.firstName }}
+				</div>
+			</li>
+			<li class="list-group-item d-flex justify-content-between align-items-start">
+				<div class="ms-2 me-auto">
+					<div class="fw-bold">Second Name:</div>
+					{{ user.lastName }}
+				</div>
+			</li>
+			<li class="list-group-item d-flex justify-content-between align-items-start">
+				<div class="ms-2 me-auto">
+					<div class="fw-bold">Email:</div>
+					{{ user.email }}
+				</div>
+			</li>
+		</ul>
+	</div>
+</div>
+{# <a class="btn btn-outline-warning" href="{{ path('app_user_index') }}">back
+																																																																																																																																																								</a> #}
+<a class="btn btn-outline-warning" href="{{ path('app_user_edit', {'id':user.id}) }}">Edit</a>
+{# {{ include('user/_delete_form.html.twig') }} #}</div></div>{% endblock %}
