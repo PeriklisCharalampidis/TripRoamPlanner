@@ -4,6 +4,7 @@
 {% endblock %}
 
 {% block body %}
+<div class="container pt-2 pb-5">
 	<form method="post">
 		{% if error %}
 			<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
@@ -14,6 +15,7 @@
 												            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
 												        </div>
 												    {% endif %} #}
+	
 		<div class="container-fluid pt-4 ">
 			<div class="col col-sm-10 col-md-8 col-lg-6 mx-auto">
 				<h1>Please sign in</h1>
@@ -30,5 +32,7 @@
 				</div>
 			</div>
 		</div>
+	
 	</form>
+</div>
 {% endblock %}

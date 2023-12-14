@@ -3,9 +3,14 @@
 :root {
   --orange: #fc2f00;
 }
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
 
 body {
-  height: 100%;
+  min-height: 100vh;
 }
 /* navbar */ 
 .navbar {
@@ -183,9 +188,13 @@ body {
   background: rgb(255,255,255);
   background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(252,47,0,1) 80%);
   color: #fff;
+  left: 0;
   bottom: 0;
   width: 100%;
+ 
 }
+
+
 /*///////*/
 h1 {
   display: flex;
