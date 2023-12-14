@@ -1,40 +1,56 @@
+
 {% extends 'base.html.twig' %}
 
-{% block title %}JournalPost index{% endblock %}
+{% block title %}JournalPost Index{% endblock %}
 
 {% block body %}
-    <h1>JournalPost index</h1>
+    <div class="container-fluid mt-4">
+        
 
-    
-        <div class="container-fluid">
-        {# <h1 class="text-center">Posts of Event Nr. {{ app.request.get('id') }}</h1> #}
-        <h1 class="text-center">My posts to trip '{{ trip.name }}'</h1>
-
-        {% for journal_post in journal_posts|sort((b, a) => a.date <=> b.date) %} 
-
-        <div class="row">
-            <div class="col-md-5">
-                <img class='img-fluid pb-2' src='{{ asset('images/' ~journal_post.image) }}' alt='...'>
-            </div>
-            <div class="col-md-7">
-                <h5 class="text-center">Post on {{ journal_post.date ? journal_post.date|date('Y-m-d') : '' }}</h5>
-                <p class="m-0 py-1">{{ journal_post.text }}</p>
-                {# <p class="m-0 py-1">Date {{ journal_post.date ? journal_post.date|date('Y-m-d') : '' }}</p> #}
-                <hr>
-                <div class="d-flex justify-content-center">
-                    <a class="btn btn-warning mx-1 my-2" href="{{ path('app_journal_post_edit', {'id': journal_post.id}) }}">edit</a>
+        {% if journal_posts|length > 0 %}
+        <div class="container mt-4">
+            <!-- Trip Header Image -->
+            <div class="card mb-4 border-0">
+                <img class="card-img-top rounded" src="{{ asset('images/' ~ trip.image) }}" alt="Trip image">
+                <div class="card-body text-center">
+                    <h1 class="card-title">My Blog of '{{ trip.name }}'</h1>
                 </div>
             </div>
-            <div>
-            {% else %}
-                <p>
-                    no records found
-                </p>
-            {% endfor %}
+    
+            <!-- Blog Post Entries -->
+            <div class="card mb-4 border-0">
+                <div class="card-body bg-secondary">
+                    {% for journal_post in journal_posts|sort((b, a) => a.date <=> b.date) %}
+                        <div class="card mb-3">
+                            <div class="row g-0">
+                                <div class="col-md-5">
+                                    <img class="card-img" src="{{ asset('images/' ~ journal_post.image) }}" alt="Post Image">
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="card-body">
+                                        <h5 class="card-title mb-3">Post on {{ journal_post.date ? journal_post.date|date('Y-m-d') : '' }}</h5>
+                                        <p class="card-text">{{ journal_post.text }}</p>
+                                        <hr>
+                                        <div class="text-center">
+                                            <a class="btn btn-warning mx-1 my-2" href="{{ path('app_journal_post_edit', {'id': journal_post.id}) }}">Edit</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
         </div>
-        <div class="d-flex justify-content-center">
-            <a class="btn btn-primary mt-4 align-self-center" style="width: 10rem;" href="{{ path('app_journal_post_new', {'id': app.request.get('id')} ) }}">Create new post</a>
+    {% else %}
+        <div class="container text-center mt-4">
+            <p>No records found</p>
+        </div>
+    {% endif %}
+    
+        <div class="d-flex justify-content-center mt-4">
+            <a class="btn btn-primary" href="{{ path('app_journal_post_new', {'id': app.request.get('id')} ) }}">Create New Post</a>
         </div>
     </div>
 {% endblock %}
+

@@ -30,7 +30,16 @@ class JournalPostController extends AbstractController
         $trip_id = $request->get('id');
         $journal_posts = $journalPostRepository->findBy(['fk_trip' => $trip_id]);
         $journal_post = $journalPostRepository->findOneBy(['fk_trip' => $trip_id]);
-        $trip = $journal_post->getFkTrip();
+        // $trip = $journal_post->getFkTrip();
+
+        if (!empty($journal_posts)) {
+            $journal_post = $journal_posts[0];
+            $trip = $journal_post->getFkTrip();
+        } else {
+            // Handling the case when there are no journal posts for the trip
+            $trip = null;
+        }
+
         return $this->render('journal_post/index.html.twig', [
             'journal_posts' => $journal_posts,
             'trip' => $trip,
