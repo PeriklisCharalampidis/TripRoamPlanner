@@ -7,11 +7,9 @@
 
     
         <div class="container-fluid">
-        {# get name of trip instead of just the id is missing #}
         {# <h1 class="text-center">Posts of Event Nr. {{ app.request.get('id') }}</h1> #}
         <h1 class="text-center">My posts to trip '{{ trip.name }}'</h1>
 
-        {# <div class="row row-cols-lg-5 row-cols-md-4 row-cols-sm-2 row-cols-xs-1 d-flex justify-content-center"> #}
         {% for journal_post in journal_posts|sort((b, a) => a.date <=> b.date) %}
 
         <div class="row">
