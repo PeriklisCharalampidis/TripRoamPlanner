@@ -104,3 +104,55 @@ function updateTestimonial() {
   }
   
   setInterval(updateTestimonial, 10000)
+
+//path in ajax - route from controller
+
+///??????????????
+
+$(document).on('click', 'button.add', function(){
+  that = $(this);
+  
+  $.ajax({
+      url:'{{ /mytrip/{destination} }}',
+      type: "POST",
+      dataType: "json",
+      data: {
+        activities: activityIds
+      },
+      async: true,
+      success: function (data)
+      {
+          console.log(data)
+          $('div#ajax').html(data.output);
+
+      }
+  });
+  return false;
+
+});
+
+fetch('/ajax-handler', {
+  method: 'POST',
+  headers: {
+      'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({ key: 'value' }),
+})
+.then(response => response.json())
+.then(data => {
+  // Handle the response data
+});
+
+// let btnAdd = document.getElementById('add');
+//        btnAdd.addEventListener('click', loadXML);
+//        function loadXML(e) {
+//            e.preventDefault();      
+//            let ajReq = new XMLHttpRequest();
+//            ajReq.open("POST", "???.xml");
+//            ajReq.onload = function () {
+//                if (this.status == 200) {
+//                    convertXml(this.responseXML);
+//                }
+//            }
+//            ajReq.send();
+//        }

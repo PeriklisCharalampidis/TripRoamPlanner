@@ -4,41 +4,50 @@
 {% endblock %}
 
 {% block body %}
-	<h1>Activities index</h1>
+	<div class="pt-2 pb-5">
+    <div class="container">
+        <h1>Activities</h1>
+        <a href="{{ path('app_activities_new') }}" class="btn btn-warning mb-2">Create new</a>
 
-	<table class="table">
-		<thead>
-			<tr>
-				<th>Id</th>
-				<th>destination_filter</th>
-				<th>Location</th>
-				<th>Date</th>
-				<th>IsPredefined</th>
-				<th>Name</th>
-				<th>actions</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for activity in activities %}
-				<tr>
-					<td>{{ activity.id }}</td>
-					<td>{{ activity.destinationFilter }}</td>
-					<td>{{ activity.location }}</td>
-					<td>{{ activity.date ? activity.date|date('Y-m-d') : '' }}</td>
-					<td>{{ activity.isPredefined ? 'Yes' : 'No' }}</td>
-					<td>{{ activity.name }}</td>
-					<td>
-						<a href="{{ path('app_activities_show', {'id': activity.id}) }}">show</a>
-						<a href="{{ path('app_activities_edit', {'id': activity.id}) }}">edit</a>
-					</td>
-				</tr>
-			{% else %}
-				<tr>
-					<td colspan="6">no records found</td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <h5 class="card-header">My day-to-day activities</h5>
+                    <!--might put 'for' here, before the card-body-->
+                        <div class="card-body" id="ajax">
+						{% for userActivity in userActivities %}
+                            <h5 class="card-title">{{ userActivity.name }}</h5>
+                            <p class="card-text">{{ userActivity.date ? userActivity.date|date('Y-m-d') : '' }}</p>
+                            {# <a href="{{ path('app_activities_show') }}" class="btn btn-success">Show-link atm</a> #}
+						{% else %}
+						<div class="card-body">
+                            <p>Nothing here yet</p>
+                        </div>
+						{% endfor %}
+                        </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card" style="width: 100%;"> <!-- Adjust width as needed -->
+                    <div class="card-header">
+                        Our activity suggestions
+                    </div>
+                    {% for activity in activities %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ activity.name }}</h5>
+                            <p class="card-text">{{ activity.date ? activity.date|date('Y-m-d') : '' }}</p>
+							 <a href="{{ add_activity }}&activId={{ activity.id }}" class="btn btn-success">Add to my day-to-day</a>
+                        </div>
+                    {% else %}
+                        <div class="card-body">
+                            <p>No suggested activities found</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
 
-	<a href="{{ path('app_activities_new') }}">Create new</a>
+    </div>
+</div>
+
 {% endblock %}

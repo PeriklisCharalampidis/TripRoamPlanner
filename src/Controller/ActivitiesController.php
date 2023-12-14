@@ -3,13 +3,17 @@
 namespace App\Controller;
 
 use App\Entity\Activities;
+use App\Entity\Trip;
 use App\Form\ActivitiesType;
 use App\Repository\ActivitiesRepository;
+use App\Repository\TripRepository;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 #[Route('/activities')]
 class ActivitiesController extends AbstractController
@@ -41,16 +45,58 @@ class ActivitiesController extends AbstractController
             'form' => $form,
         ]);
     }
-    #[Route('/{destination}', name: 'app_trip', methods: ['GET'])]
-    public function user(ActivitiesRepository $activitiesRepository, Request $request): Response
-    {
-        $trip_destination = $request->get('destination');
 
-        $activities = $activitiesRepository->findBy(['destination_filter' => $trip_destination]);
+    #[Route('/mytrip/{destination}', name: 'app_trip', methods: ['GET', 'POST'])]
+    public function user(
+        ActivitiesRepository $activitiesRepository,
+        TripRepository $tripRepository,
+        Request $request,
+        EntityManagerInterface $entityManager
+    ): Response {
+        $tripDestination = $request->get('destination');
+        $trip = $tripRepository->findOneBy(['destination' => $tripDestination]);
+        $activities = $activitiesRepository->findBy(['destination_filter' => $tripDestination]);
+
+        if ($request->get("activityAdded")) {
+            $activityIds = $request->get('activId');
+
+            $activity = $activitiesRepository->find($activityIds);
+
+            if ($activity) {
+                $trip->addFkActivity($activity);
+                $entityManager->persist($trip);
+                $entityManager->flush();
+            }
+        }
+
+        $userActivities = [];
+        $tripId = $trip->getId();
+        $userActivities = $activitiesRepository->createQueryBuilder('a')
+            ->innerJoin('a.fk_trips', 't')
+            ->where('t.id = :tripId')
+            ->setParameter('tripId', $tripId)
+            ->getQuery()
+            ->getResult();
+
+
+        $userId = $this->getUser()->getUserIdentifier();
+
+        $addActivity = $this->generateUrl('app_trip', [
+            "activityAdded" => true,
+            'destination' => $trip->getDestination(),
+            'userId' => $userId,
+            'tripId' => $trip->getId(),
+            'activities' => $activities,
+        ], UrlGeneratorInterface::ABSOLUTE_PATH);
+
         return $this->render('activities/index.html.twig', [
             'activities' => $activities,
+            'userActivities' => $userActivities,
+            'add_activity' => $addActivity,
+            "tripDestination" => $tripDestination
         ]);
     }
+
     #[Route('/{id}', name: 'app_activities_show', methods: ['GET'])]
     public function show(Activities $activity): Response
     {
@@ -80,7 +126,7 @@ class ActivitiesController extends AbstractController
     #[Route('/{id}', name: 'app_activities_delete', methods: ['POST'])]
     public function delete(Request $request, Activities $activity, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$activity->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $activity->getId(), $request->request->get('_token'))) {
             $entityManager->remove($activity);
             $entityManager->flush();
         }
