@@ -11,21 +11,22 @@
 
 			{% for trip in trips %}
 
-				<div class="card">
+				<div class="card m-2">
 
 					<div
 						class="card-body">
 						{# <img src="{{ trip.image }}" class="card-img-top" alt="..."> #}
 						<h5 class="card-title">{{ trip.name }}</h5>
 						<p class="card-text">{{ trip.destination }}</p>
-						<p class="card-text">{{ trip.dateBegin ? trip.dateBegin|date('Y-m-d') : '' }}</p>
-						<p class="card-text">{{ trip.dateEnd ? trip.dateEnd|date('Y-m-d') : '' }}</p>
+						<p class="card-text">From {{ trip.dateBegin ? trip.dateBegin|date('Y-m-d') : '' }} until {{ trip.dateEnd ? trip.dateEnd|date('Y-m-d') : '' }}</p>
 
-						<a class="btn btn-success" href="{{ path('app_trip_show', {'id': trip.id}) }}">Details</a>
-						<a class="btn btn-warning" href="{{ path('app_trip_edit', {'id': trip.id}) }}">edit</a>
-						<a class="btn btn-secondary" href="{{ path('app_trip', {'destination': trip.destination}) }}">Itinerary</a>
-						<a class="btn btn-secondary" href="{{ path('app_paking_list_index', {'id': trip.id}) }}">Packing List</a>
-						<a class="btn btn-secondary" href="{{ path('app_journal_trip', {'id': trip.id}) }}">Journal</a>
+						{#<a class="btn btn-success" href="{{ path('app_trip_show', {'id': trip.id}) }}">Details</a>
+						<a class="btn btn-warning" href="{{ path('app_trip_edit', {'id': trip.id}) }}">edit</a>#}
+						<div class="btn-group">
+							<a class="btn btn-outline-dark" href="{{ path('app_trip', {'destination': trip.destination}) }}">Itinerary</a>
+							<a class="btn btn-outline-dark" href="{{ path('app_paking_list_index', {'id': trip.id}) }}">Packing List</a>
+							<a class="btn btn-outline-dark" href="{{ path('app_journal_trip', {'id': trip.id}) }}">Journal</a>
+						</div>
 					</div>
 				</div>
 
@@ -34,6 +35,6 @@
 				<p>no records found</p>
 			{% endfor %}
 		</div>
-		<a class="btn btn-primary mt-4" href="{{ path('app_trip_new') }}">New Trip 2</a>
+		<a class="btn btn-outline-dark mt-4" href="{{ path('app_trip_new') }}">Create a new Trip</a>
 	</div>
 {% endblock %}
