@@ -21,32 +21,6 @@ class PakingListType extends AbstractType
                     "placeholder" => "please input the name of the item"
                     ]
             ])
-            /*->add('isPredefined', null, [
-                'data' => false, // Predefined value
-                'disabled' => true, // Make the field read-only
-                'required' => false, // Since the field is disabled, it's not required
-                'attr' => [
-                    'class' => 'form-check-input',
-                ],
-            ])
-            ->add('season_filter', ChoiceType::class, [
-                'label' => 'Season:',
-                'choices' => [
-                    'any' => 'any',
-                    'summer' => 'summer',
-                    'winter' => 'winter'
-                ],
-                'disabled' => true, // Make the field read-only
-                'required' => false, // Since the field is disabled, it's not required
-                'attr' => [
-                    'class' => 'form-check-input',
-                ],
-            ])*/
-            /*->add('fk_trips', EntityType::class, [
-                'class' => Trip::class,
-                'choice_label' => 'id',
-                'multiple' => true,
-            ])*/
         ;
     }
 

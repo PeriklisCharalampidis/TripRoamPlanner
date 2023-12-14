@@ -23,8 +23,8 @@
                 <td>{{ packing_item.isPredefined ? 'Yes' : 'No' }}</td>
                 <td>{{ packing_item.seasonFilter }}</td>
                 <td>
-                    <a href="{{ path('app_paking_list_show', {'id': packing_item.id}) }}">show</a>
-                    <a href="{{ path('app_paking_list_edit', {'id': packing_item.id}) }}">edit</a>
+                    {#<a href="{{ path('app_paking_list_show', {'id': packing_item.id}) }}">show</a>#}
+                    <a href="{{ path('app_paking_list_edit', {'season': season,'id': packing_item.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}

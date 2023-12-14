@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\PakingList;
 use App\Form\PakingListType;
-use App\Repository\ActivitiesRepository;
+
 use App\Repository\PakingListRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -61,29 +61,35 @@ class PakingListController extends AbstractController
             'season' => $trip_season,
         ]);
     }
-    #[Route('/{id}', name: 'app_paking_list_show', methods: ['GET'])]
+    /*#[Route('/{id}', name: 'app_paking_list_show', methods: ['GET'])]
     public function show(PakingList $pakingList): Response
     {
         return $this->render('paking_list/show.html.twig', [
             'paking_list' => $pakingList,
-        ]);
-    }
 
-    #[Route('/{id}/edit', name: 'app_paking_list_edit', methods: ['GET', 'POST'])]
+        ]);
+    }*/
+
+    #[Route('/{id}/{season}/edit', name: 'app_paking_list_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, PakingList $pakingList, EntityManagerInterface $entityManager): Response
     {
+        $trip_season = $request->get('season');
+
         $form = $this->createForm(PakingListType::class, $pakingList);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_paking_list_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_trips_packinglist', [
+                'season' => $trip_season,
+            ], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('paking_list/edit.html.twig', [
             'paking_list' => $pakingList,
             'form' => $form,
+            'season' => $trip_season,
         ]);
     }
 
