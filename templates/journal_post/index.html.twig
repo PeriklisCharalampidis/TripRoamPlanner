@@ -12,15 +12,16 @@
         <h1 class="text-center">My posts to trip '{{ trip.name }}'</h1>
 
         {# <div class="row row-cols-lg-5 row-cols-md-4 row-cols-sm-2 row-cols-xs-1 d-flex justify-content-center"> #}
-        {% for journal_post in journal_posts %}
-        
+        {% for journal_post in journal_posts|sort((b, a) => a.date <=> b.date) %}
+
         <div class="row">
             <div class="col-md-5">
                 <img class='img-fluid pb-2' src='{{ asset('images/' ~journal_post.image) }}' alt='...'>
             </div>
             <div class="col-md-7">
+                <h5 class="text-center">Post on {{ journal_post.date ? journal_post.date|date('Y-m-d') : '' }}</h5>
                 <p class="m-0 py-1">{{ journal_post.text }}</p>
-                <p class="m-0 py-1">Date {{ journal_post.date ? journal_post.date|date('Y-m-d') : '' }}</p>
+                {# <p class="m-0 py-1">Date {{ journal_post.date ? journal_post.date|date('Y-m-d') : '' }}</p> #}
                 <hr>
                 <div class="d-flex justify-content-center">
                     <a class="btn btn-warning mx-1 my-2" href="{{ path('app_journal_post_edit', {'id': journal_post.id}) }}">edit</a>
