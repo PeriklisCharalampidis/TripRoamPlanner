@@ -10,7 +10,7 @@
         {# <h1 class="text-center">Posts of Event Nr. {{ app.request.get('id') }}</h1> #}
         <h1 class="text-center">My posts to trip '{{ trip.name }}'</h1>
 
-        {% for journal_post in journal_posts|sort((b, a) => a.date <=> b.date) %}
+        {% for journal_post in journal_posts|sort((b, a) => a.date <=> b.date) %} 
 
         <div class="row">
             <div class="col-md-5">
