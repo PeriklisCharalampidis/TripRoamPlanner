@@ -18,10 +18,10 @@ class PakingListType extends AbstractType
             ->add('name', null, [
                 'attr' => [
                     'class' => 'form-control ',
-                    "placeholder" => "please the name of the item"
+                    "placeholder" => "please input the name of the item"
                     ]
             ])
-            ->add('isPredefined', null, [
+            /*->add('isPredefined', null, [
                 'data' => false, // Predefined value
                 'disabled' => true, // Make the field read-only
                 'required' => false, // Since the field is disabled, it's not required
@@ -36,10 +36,12 @@ class PakingListType extends AbstractType
                     'summer' => 'summer',
                     'winter' => 'winter'
                 ],
+                'disabled' => true, // Make the field read-only
+                'required' => false, // Since the field is disabled, it's not required
                 'attr' => [
-                    'class' => 'form-control',
-                ]
-            ])
+                    'class' => 'form-check-input',
+                ],
+            ])*/
             /*->add('fk_trips', EntityType::class, [
                 'class' => Trip::class,
                 'choice_label' => 'id',

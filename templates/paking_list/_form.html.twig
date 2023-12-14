@@ -2,8 +2,8 @@
     {#{{ form_widget(form) }}#}
 <div class="container">
     {{ form_row(form.name) }}
-    {{ form_row(form.isPredefined) }}
-    {{ form_row(form.season_filter) }}
+    {#{{ form_row(form.isPredefined) }}
+    {{ form_row(form.season_filter) }}#}
     <button class="btn">{{ button_label|default('Save') }}</button>
 </div>
 

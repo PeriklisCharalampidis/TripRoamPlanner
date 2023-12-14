@@ -23,11 +23,13 @@ class PakingListController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_paking_list_new', methods: ['GET', 'POST'])]
+    #[Route('/{season}/new', name: 'app_paking_list_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $trip_season = $request->get('season');
         $pakingList = new PakingList();
         $pakingList->setIsPredefined(false); // Set the default value here
+        $pakingList->setSeasonFilter('custom'); // Set the default value here
 
         $form = $this->createForm(PakingListType::class, $pakingList);
         $form->handleRequest($request);
@@ -36,12 +38,15 @@ class PakingListController extends AbstractController
             $entityManager->persist($pakingList);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_paking_list_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_trips_packinglist', [
+                'season' => $trip_season,
+                ], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('paking_list/new.html.twig', [
             'paking_list' => $pakingList,
             'form' => $form->createView(),
+            'season' => $trip_season,
         ]);
     }
     #[Route('/{season}', name: 'app_trips_packinglist', methods: ['GET'])]
@@ -49,9 +54,11 @@ class PakingListController extends AbstractController
     {
         $trip_season = $request->get('season');
 
-        $packing_items = $pakingListRepository->findBy(['season_filter' => $trip_season]);
+        $criteria = ['season_filter' => [$trip_season, 'any', 'custom']];
+        $packing_items = $pakingListRepository->findBy($criteria);
         return $this->render('paking_list/index.html.twig', [
             'packing_items' => $packing_items,
+            'season' => $trip_season,
         ]);
     }
     #[Route('/{id}', name: 'app_paking_list_show', methods: ['GET'])]
