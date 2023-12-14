@@ -24,7 +24,7 @@
 				<p class="card-text">{{ trip.dateEnd ? trip.dateEnd|date('Y-m-d') : '' }}</p>
 				<a class="btn btn-warning" href="{{ path('app_trip_edit', {'id': trip.id}) }}">edit</a>
 			</div>
-			<a href="{{ path('app_trip_index') }}">back to list</a>
+			<a href="{{ path('app_trip_index',{'id':app.user.id}) }}">back to list</a>
 
 		</div>
 

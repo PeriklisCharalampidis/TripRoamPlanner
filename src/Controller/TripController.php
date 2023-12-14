@@ -22,22 +22,11 @@ class TripController extends AbstractController
     {
         $this->entityManager = $entityManager;
     }
-    #[Route('/', name: 'app_trip_index', methods: ['GET'])]
+    #[Route('/', name: 'app_all_trips_index', methods: ['GET'])]
     public function index2(TripRepository $tripRepository, Request $request): Response
     {
         return $this->render('trip/index.html.twig', [
             'trips' => $tripRepository->findAll(),
-        ]);
-    }
-    #[Route('/{id}', name: 'app_my_trip_index', methods: ['GET'])]
-    public function index(TripRepository $tripRepository, Request $request): Response
-    {
-        $user_id = $request->get('id');
-
-        $trips = $tripRepository->findBy(['fk_user' => $user_id]);
-
-        return $this->render('trip/index.html.twig', [
-            'trips' => $trips,
         ]);
     }
 
@@ -57,7 +46,7 @@ class TripController extends AbstractController
             $activities = $this->entityManager->getRepository(Activities::class)
                 ->findBy(['destination_filter' => $destination]);
 
-            return $this->redirectToRoute('app_trip_index', [
+            return $this->redirectToRoute('app_trip_new', [
                 'trips' => $trip,
                 'activities' => $activities,
             ], Response::HTTP_SEE_OTHER);
@@ -75,9 +64,22 @@ class TripController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_trip_show', methods: ['GET'])]
+    #[Route('/{id}', name: 'app_trip_index', methods: ['GET'])]
+    public function index(TripRepository $tripRepository, Request $request): Response
+    {
+        $user_id = $request->get('id');
+
+        $trips = $tripRepository->findBy(['fk_user' => $user_id]);
+
+        return $this->render('trip/index.html.twig', [
+            'trips' => $trips,
+        ]);
+    }
+
+    #[Route('/{id}/show', name: 'app_trip_show', methods: ['GET'])]
     public function show(Trip $trip): Response
     {
+
         return $this->render('trip/show.html.twig', [
             'trip' => $trip,
         ]);
@@ -101,7 +103,7 @@ class TripController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_trip_delete', methods: ['POST'])]
+    #[Route('/{id}/delete', name: 'app_trip_delete', methods: ['POST'])]
     public function delete(Request $request, Trip $trip, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$trip->getId(), $request->request->get('_token'))) {
