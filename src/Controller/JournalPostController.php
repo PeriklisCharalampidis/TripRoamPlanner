@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Service\FileUploader;
 
 #[Route('/journalpost')]
 class JournalPostController extends AbstractController
@@ -39,7 +40,7 @@ class JournalPostController extends AbstractController
     }
 
     #[Route('/new/{id}', name: 'app_journal_post_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
     {
         $fk_trip = $request->get('id');
         $trip = $entityManager->getRepository(Trip::class)->find($fk_trip);
@@ -52,6 +53,16 @@ class JournalPostController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $brochureFile = $form->get('image')->getData();
+            if ($brochureFile) {
+                $brochureFileName = $fileUploader->upload($brochureFile);
+            } else{
+                $brochureFileName = "default.png";
+            }
+
+            $journalPost->setImage($brochureFileName);
+
+
             $journalPost->setFkTrip($trip);
             $entityManager->persist($journalPost);
             $entityManager->flush();
@@ -75,7 +86,7 @@ class JournalPostController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_journal_post_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, JournalPost $journalPost, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, JournalPost $journalPost, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
     {
         $fk_trip = $journalPost->getFkTrip()->getId();
         $trip = $journalPost->getFkTrip();
@@ -85,6 +96,16 @@ class JournalPostController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $brochureFile = $form->get('image')->getData();
+            if ($brochureFile) {
+                if($journalPost -> getImage() != "default.png"){
+                    unlink($this->getParameter("images_directory") . "/" . $journalPost->getImage());
+                }
+                $brochureFileName = $fileUploader->upload($brochureFile);
+                $journalPost->setImage($brochureFileName);
+            }
+
+
             $entityManager->flush();
             // dd($fk_trip);
 
