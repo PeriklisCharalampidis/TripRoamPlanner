@@ -21,16 +21,7 @@ class ActivitiesController extends AbstractController
             'activities' => $activitiesRepository->findAll(),
         ]);
     }
-    #[Route('/{destination}', name: 'app_trip', methods: ['GET'])]
-    public function user(ActivitiesRepository $activitiesRepository, Request $request): Response
-    {
-        $trip_destination = $request->get('destination');
 
-        $activities = $activitiesRepository->findBy(['destination_filter' => $trip_destination]);
-        return $this->render('activities/index.html.twig', [
-            'activities' => $activities,
-        ]);
-    }
     #[Route('/new', name: 'app_activities_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -50,7 +41,16 @@ class ActivitiesController extends AbstractController
             'form' => $form,
         ]);
     }
+    #[Route('/{destination}', name: 'app_trip', methods: ['GET'])]
+    public function user(ActivitiesRepository $activitiesRepository, Request $request): Response
+    {
+        $trip_destination = $request->get('destination');
 
+        $activities = $activitiesRepository->findBy(['destination_filter' => $trip_destination]);
+        return $this->render('activities/index.html.twig', [
+            'activities' => $activities,
+        ]);
+    }
     #[Route('/{id}', name: 'app_activities_show', methods: ['GET'])]
     public function show(Activities $activity): Response
     {
