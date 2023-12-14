@@ -24,7 +24,24 @@
 						<a class="btn btn-warning" href="{{ path('app_trip_edit', {'id': trip.id}) }}">edit</a>#}
 						<div class="btn-group">
 							<a class="btn btn-outline-dark" href="{{ path('app_trip', {'destination': trip.destination}) }}">Itinerary</a>
-							<a class="btn btn-outline-dark" href="{{ path('app_paking_list_index', {'id': trip.id}) }}">Packing List</a>
+
+							{% set summerStartMonth = 5 %}
+							{% set summerEndMonth = 10 %}
+
+							{% set winterStartMonth = 11 %}
+							{% set winterEndMonth = 4 %}
+
+							{% set season = '' %}
+
+							{% if trip.getDateBegin()|date('n') >= summerStartMonth and trip.getDateEnd()|date('n') <= summerEndMonth %}
+								{% set season = 'summer' %}
+							{% elseif trip.getDateBegin()|date('n') >= winterStartMonth or trip.getDateEnd()|date('n') <= winterEndMonth %}
+								{% set season = 'winter' %}
+							{% endif %}
+
+							{# Output the link with the season parameter #}
+							<a class="btn btn-outline-dark" href="{{ path('app_trips_packinglist', {'season': season}) }}">Packing List</a> {#  for {{ season|capitalize }} #}
+
 							<a class="btn btn-outline-dark" href="{{ path('app_journal_trip', {'id': trip.id}) }}">Journal</a>
 						</div>
 					</div>

@@ -1,4 +1,10 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
+    {#{{ form_widget(form) }}#}
+<div class="container">
+    {{ form_row(form.name) }}
+    {{ form_row(form.isPredefined) }}
+    {{ form_row(form.season_filter) }}
     <button class="btn">{{ button_label|default('Save') }}</button>
+</div>
+
 {{ form_end(form) }}

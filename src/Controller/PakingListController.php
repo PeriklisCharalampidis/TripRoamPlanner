@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\PakingList;
 use App\Form\PakingListType;
+use App\Repository\ActivitiesRepository;
 use App\Repository\PakingListRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,6 +27,8 @@ class PakingListController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $pakingList = new PakingList();
+        $pakingList->setIsPredefined(false); // Set the default value here
+
         $form = $this->createForm(PakingListType::class, $pakingList);
         $form->handleRequest($request);
 
@@ -38,10 +41,19 @@ class PakingListController extends AbstractController
 
         return $this->render('paking_list/new.html.twig', [
             'paking_list' => $pakingList,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
+    #[Route('/{season}', name: 'app_trips_packinglist', methods: ['GET'])]
+    public function user(PakingListRepository $pakingListRepository, Request $request): Response
+    {
+        $trip_season = $request->get('season');
 
+        $packing_items = $pakingListRepository->findBy(['season_filter' => $trip_season]);
+        return $this->render('paking_list/index.html.twig', [
+            'packing_items' => $packing_items,
+        ]);
+    }
     #[Route('/{id}', name: 'app_paking_list_show', methods: ['GET'])]
     public function show(PakingList $pakingList): Response
     {
