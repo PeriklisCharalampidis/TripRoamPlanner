@@ -18,6 +18,7 @@ class PakingListCrudController extends AbstractCrudController
     /*
     public function configureFields(string $pageName): iterable
     {
+
         return [
             IdField::new('id'),
             TextField::new('title'),
