@@ -22,28 +22,10 @@
 							{{ trip.dateBegin ? trip.dateBegin|date('Y-m-d') : '' }}
 							until
 							{{ trip.dateEnd ? trip.dateEnd|date('Y-m-d') : '' }}</p>
-
-						{#<a class="btn btn-success" href="{{ path('app_trip_show', {'id': trip.id}) }}">Details</a>
-																								<a class="btn btn-warning" href="{{ path('app_trip_edit', {'id': trip.id}) }}">edit</a>#}
 						<div class="btn-group">
 							<a class="btn btn-outline-dark" href="{{ path('app_trip', {'destination': trip.destination}) }}">Itinerary</a>
 
-							{% set summerStartMonth = 5 %}
-							{% set summerEndMonth = 10 %}
-
-							{% set winterStartMonth = 11 %}
-							{% set winterEndMonth = 4 %}
-
-							{% set season = 'any' %}
-
-							{% if trip.getDateBegin()|date('n') >= summerStartMonth and trip.getDateEnd()|date('n') <= summerEndMonth %}
-								{% set season = 'summer' %}
-							{% elseif trip.getDateBegin()|date('n') >= winterStartMonth or trip.getDateEnd()|date('n') <= winterEndMonth %}
-								{% set season = 'winter' %}
-							{% endif %}
-
-							{# Output the link with the season parameter #}
-							<a class="btn btn-outline-dark" href="{{ path('app_trips_packinglist', {'season': season}) }}">Packing List</a>
+							<a class="btn btn-outline-dark" href="{{ path('app_trips_packinglist', {'tripId': trip.id}) }}">Packing List</a>
 
 							<a class="btn btn-outline-dark" href="{{ path('app_journal_trip', {'id': trip.id}) }}">Journal</a>
 						</div>

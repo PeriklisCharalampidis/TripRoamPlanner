@@ -1,39 +1,62 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}PackingList{% endblock %}
+{% block title %}Packing List{% endblock %}
 
 {% block body %}
-    <h1>Packing list for the trip</h1>
+<div class="container">
+    <h1>Packing list for the trip "{{ tripName }}" to {{ tripDestination }}</h1>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <h5 class="card-header">my chosen packing items</h5>
+                <table class="table">
+                    <tbody>
+                    {% for userPackingItem in userPackingItems %}
+                        <tr>
+                            <td>{{ userPackingItem.name }}</td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td>Nothing here yet</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <h5 class="card-header">our packing item suggestions</h5>
+                <table class="table">
+                    <tbody>
+                    {% for packing_item in packing_items %}
+                        <tr>
+                            <td class="col-6">
+                                {{ packing_item.name }}
+                            </td>
+                            <td class="col-2">
+                                <a href="{{ add_packing_item }}&packingItemId={{ packing_item.id }}" class="btn btn-sm btn-success">add</a>
+                            </td>
+                            <td class="col-2">
+                                {% if packing_item.isPredefined == false %}
+                                    <a href="{{ path('app_paking_list_edit', {'id': packing_item.id}) }}" class="btn btn-sm btn-outline-dark">edit</a>
+                                {% endif %}
+                            </td>
+                            <td class="col-2">
+                                {% if packing_item.isPredefined == false %}
+                                    {{ include('paking_list/_delete_form.html.twig') }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% else %}
+                        <li>no records found</li>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <a href="{{ path('app_packingItem_new', {'tripId': tripId}) }}" class="btn btn-warning mb-2">Create new</a>
+            </div>
+        </div>
+    </div>
+</div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>IsPredefined</th>
-                <th>Season</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for packing_item in packing_items %}
-            <tr>
-                <td>{{ packing_item.id }}</td>
-                <td>{{ packing_item.name }}</td>
-                <td>{{ packing_item.isPredefined ? 'Yes' : 'No' }}</td>
-                <td>{{ packing_item.seasonFilter }}</td>
-                <td>
-                    {#<a href="{{ path('app_paking_list_show', {'id': packing_item.id}) }}">show</a>#}
-                    <a href="{{ path('app_paking_list_edit', {'season': season,'id': packing_item.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_paking_list_new', {'season': season}) }}">Create new</a>
 {% endblock %}
