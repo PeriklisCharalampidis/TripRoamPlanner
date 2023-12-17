@@ -43,13 +43,6 @@ class JournalPostType extends AbstractType
                 ])
             ],
         ])
-        // You can uncomment and customize the following if you want to include the trip selection
-        // ->add('fk_trip', EntityType::class, [
-        //     'class' => Trip::class,
-        //     'choice_label' => 'id',
-        //     'attr' => ['class' => 'form-control'],
-        // ])
-
         ;
     }
 
@@ -57,7 +50,7 @@ class JournalPostType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => JournalPost::class,
-            'fk_trip_default' => null, // Define the custom option here
+            'fk_trip_default' => null,
         ]);
     }
 }
