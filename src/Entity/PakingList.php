@@ -27,9 +27,13 @@ class PakingList
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $season_filter = null;
 
+    #[ORM\ManyToMany(targetEntity: TripPackingListItem::class, mappedBy: "pakingList")]
+    private Collection $tripPackingListItems;
+
     public function __construct()
     {
         $this->fk_trips = new ArrayCollection();
+        $this->tripPackingListItems = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -99,4 +103,15 @@ class PakingList
 
         return $this;
     }
+
+    public function getTripPackingListItems(): Collection
+    {
+        return $this->tripPackingListItems;
+    }
+
+    public function setTripPackingListItems(Collection $tripPackingListItems): void
+    {
+        $this->tripPackingListItems = $tripPackingListItems;
+    }
+
 }

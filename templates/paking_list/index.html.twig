@@ -9,11 +9,36 @@
         <div class="col-md-8">
             <div class="card">
                 <h5 class="card-header">my chosen packing items</h5>
-                <table class="table">
+                {#<table class="table">
                     <tbody>
                     {% for userPackingItem in userPackingItems %}
                         <tr>
                             <td>{{ userPackingItem.name }}</td>
+                            <td><button class="btn btn-sm btn-warning">+</button></td>
+                            {% if userPackingItem.tripPackingItemCount > 0 %}
+                                <td>count: {{ userPackingItem.tripPackingItemCount }}</td>
+                            {% else %}
+                                <td>count: 0</td>
+                            {% endif %}
+                            <td><button class="btn btn-sm btn-warning">-</button></td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td>Nothing here yet</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>#}
+                <table class="table">
+                    <tbody>
+                    {% for userPackingItem in userPackingItems %}
+                        <tr>
+                            <td>{{ userPackingItem.pakingList.name }}</td>
+                            <td>
+                                <button class="btn btn-sm btn-warning">-</button>
+                                count: {{ userPackingItem.count }}
+                                <button class="btn btn-sm btn-warning">+</button>
+                            </td>
                         </tr>
                     {% else %}
                         <tr>
@@ -53,7 +78,7 @@
                     {% endfor %}
                     </tbody>
                 </table>
-                <a href="{{ path('app_packingItem_new', {'tripId': tripId}) }}" class="btn btn-warning mb-2">Create new</a>
+                <a href="{{ path('app_packingItem_new', {'tripId': tripId}) }}" class="btn btn-warning m-2">Create new</a>
             </div>
         </div>
     </div>

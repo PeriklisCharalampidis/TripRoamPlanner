@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\PakingList;
 use App\Entity\Trip;
+use App\Entity\TripPackingListItem;
 use App\Form\PakingListType;
 
 use App\Repository\PakingListRepository;
@@ -102,26 +103,60 @@ class PakingListController extends AbstractController
         $packing_items = $packingListRepository->findBy($criteria);
         /*$packing_items = $packingListRepository->findAll();*/
 
-        if($request->get("packingItemAdded")){
+        if ($request->get("packingItemAdded")) {
             $packingItemIds = $request->get('packingItemId');
 
-            $packingItem = $packingListRepository->find($packingItemIds);
+            // Ensure $packingItemIds is an array
+            $packingItemIds = is_array($packingItemIds) ? $packingItemIds : explode(',', $packingItemIds);
 
-            if($packingItem) {
-                $trip->addFkPakingList($packingItem);
-                $entityManager->persist($trip);
-                $entityManager->flush();
+            foreach ($packingItemIds as $packingItemId) {
+                $packingItem = $packingListRepository->find($packingItemId);
+
+                if ($packingItem) {
+                    // Create an instance of TripPackingListItem and associate it with Trip and PakingList
+                    $tripPackingListItem = new TripPackingListItem();
+                    $tripPackingListItem->setTrip($trip);
+                    $tripPackingListItem->setPakingList($packingItem);
+                    $tripPackingListItem->setCount(1); // Set the count value
+
+                    $entityManager->persist($tripPackingListItem);
+                }
             }
+
+            $entityManager->flush();
         }
 
         $userPackingItems = [];
         $tripId = $trip->getId();
-        $userPackingItems = $packingListRepository->createQueryBuilder('a')
+
+/*        $userPackingItems = $packingListRepository->createQueryBuilder('a')
             ->innerJoin('a.fk_trips','t')
             ->where('t.id = :tripId')
             ->setParameter('tripId', $tripId)
             ->getQuery()
+            ->getResult()*/;
+
+/*        $userPackingItems = $packingListRepository->createQueryBuilder('a')
+            ->innerJoin('a.fk_trips', 't')
+            ->leftJoin('App\Entity\TripPackingListItem', 'tpli', 'WITH', 'tpli.pakingList = a AND tpli.trip = t')
+            ->addSelect('a.name') // Add this line to select the name field
+            ->addSelect('tpli.count as tripPackingItemCount')
+            ->where('t.id = :tripId')
+            ->setParameter('tripId', $tripId)
+            ->getQuery()
+            ->getResult();*/
+
+        $userPackingItems = $entityManager->getRepository(TripPackingListItem::class)
+            ->createQueryBuilder('tpli')
+            ->select('tpli', 'p', 't') // Include the associated PakingList and Trip entities
+            ->leftJoin('tpli.pakingList', 'p')
+            ->leftJoin('tpli.trip', 't')
+            ->where('t.id = :tripId')
+            ->setParameter('tripId', $tripId)
+            ->getQuery()
             ->getResult();
+
+/*        dd($userPackingItems);*/
 
         $userId = $this->getUser()->getUserIdentifier();
 
