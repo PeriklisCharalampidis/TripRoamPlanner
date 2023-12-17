@@ -106,3 +106,25 @@ function updateTestimonial() {
   setInterval(updateTestimonial, 10000)
 
 ////
+// js to handle AJAX requests for increasing and decreasing counts:
+function increaseCount(tripPackingListItemId) {
+  // Use AJAX to send a POST request to increase the count
+  fetch(`/increase-count/${tripPackingListItemId}`, { method: 'POST' })
+      .then(response => {
+        if (response.ok) {
+          // Reload the page after successful increase
+          location.reload();
+        }
+      });
+}
+
+function decreaseCount(tripPackingListItemId) {
+  // Use AJAX to send a POST request to decrease the count
+  fetch(`/decrease-count/${tripPackingListItemId}`, { method: 'POST' })
+      .then(response => {
+        if (response.ok) {
+          // Reload the page after successful decrease
+          location.reload();
+        }
+      });
+}

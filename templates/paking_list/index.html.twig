@@ -35,9 +35,9 @@
                         <tr>
                             <td>{{ userPackingItem.pakingList.name }}</td>
                             <td>
-                                <button class="btn btn-sm btn-warning">-</button>
+                                <a href="/pakinglist/decrease-count/{tripPackingListItemId}" class="btn btn-sm btn-warning" onclick="decreaseCount({{ userPackingItem.id }})">-</a>
                                 count: {{ userPackingItem.count }}
-                                <button class="btn btn-sm btn-warning">+</button>
+                                <a href="/pakinglist/increase-count/{tripPackingListItemId}" class="btn btn-sm btn-warning" onclick="increaseCount({{ userPackingItem.id }})">+</a>
                             </td>
                         </tr>
                     {% else %}

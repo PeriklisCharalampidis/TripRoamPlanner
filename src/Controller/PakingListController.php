@@ -129,23 +129,6 @@ class PakingListController extends AbstractController
         $userPackingItems = [];
         $tripId = $trip->getId();
 
-/*        $userPackingItems = $packingListRepository->createQueryBuilder('a')
-            ->innerJoin('a.fk_trips','t')
-            ->where('t.id = :tripId')
-            ->setParameter('tripId', $tripId)
-            ->getQuery()
-            ->getResult()*/;
-
-/*        $userPackingItems = $packingListRepository->createQueryBuilder('a')
-            ->innerJoin('a.fk_trips', 't')
-            ->leftJoin('App\Entity\TripPackingListItem', 'tpli', 'WITH', 'tpli.pakingList = a AND tpli.trip = t')
-            ->addSelect('a.name') // Add this line to select the name field
-            ->addSelect('tpli.count as tripPackingItemCount')
-            ->where('t.id = :tripId')
-            ->setParameter('tripId', $tripId)
-            ->getQuery()
-            ->getResult();*/
-
         $userPackingItems = $entityManager->getRepository(TripPackingListItem::class)
             ->createQueryBuilder('tpli')
             ->select('tpli', 'p', 't') // Include the associated PakingList and Trip entities
@@ -223,5 +206,36 @@ class PakingListController extends AbstractController
         return $this->redirectToRoute('app_trips_packinglist', [
             'tripId' => $tripId,
         ], Response::HTTP_SEE_OTHER);
+    }
+
+    // increase and decrease the count value in TripPackingListItem
+    #[Route('/increase-count/{tripPackingListItemId}', name: 'app_increase_count', methods: ['GET','POST'])]
+    public function increaseCount($tripPackingListItemId, EntityManagerInterface $entityManager): Response
+    {
+        $tripPackingListItem = $entityManager->getRepository(TripPackingListItem::class)->find($tripPackingListItemId);
+
+        if ($tripPackingListItem) {
+            $tripPackingListItem->setCount($tripPackingListItem->getCount() + 1);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('app_trips_packinglist', [
+            'tripId' => $tripPackingListItem->getTrip()->getId(),
+        ]);
+    }
+
+    #[Route('/decrease-count/{tripPackingListItemId}', name: 'app_decrease_count', methods: ['GET','POST'])]
+    public function decreaseCount($tripPackingListItemId, EntityManagerInterface $entityManager): Response
+    {
+        $tripPackingListItem = $entityManager->getRepository(TripPackingListItem::class)->find($tripPackingListItemId);
+
+        if ($tripPackingListItem && $tripPackingListItem->getCount() > 0) {
+            $tripPackingListItem->setCount($tripPackingListItem->getCount() - 1);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('app_trips_packinglist', [
+            'tripId' => $tripPackingListItem->getTrip()->getId(),
+        ]);
     }
 }
