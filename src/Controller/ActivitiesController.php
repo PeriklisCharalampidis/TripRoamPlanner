@@ -21,28 +21,52 @@ class ActivitiesController extends AbstractController
     #[Route('/', name: 'app_activities_index', methods: ['GET'])]
     public function index(ActivitiesRepository $activitiesRepository): Response
     {
+        $userActivities = [];
+
         return $this->render('activities/index.html.twig', [
             'activities' => $activitiesRepository->findAll(),
+            'userActivities' => $userActivities,
         ]);
     }
 
     #[Route('/new', name: 'app_activities_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, ActivitiesRepository $activitiesRepository, TripRepository $tripRepository): Response
     {
         $activity = new Activities();
         $form = $this->createForm(ActivitiesType::class, $activity);
         $form->handleRequest($request);
+        $tripDestination = $request->query->get('destination');
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $isPredefined = $activity->isIsPredefined();
+
+            // maybe need the destination to post the result straight to user activities
+            $tripDestination = $request->get('destination');
+            $trip = $tripRepository->findOneBy(['destination' => $tripDestination]);
+
+            if (!$isPredefined && $trip) {
+                $trip->addFkActivity($activity);
+                $entityManager->persist($trip);
+                $entityManager->flush();
+                $userActivities = $activitiesRepository->findBy(['destination_filter' => $tripDestination]);
+
+                return $this->render('activities/new.html.twig', [
+                    'activity' => $activity,
+                    'form' => $form->createView(),
+                    'userActivities' => $userActivities,
+                ]);
+            }
+
             $entityManager->persist($activity);
             $entityManager->flush();
-
-            return $this->redirectToRoute('app_activities_index', [], Response::HTTP_SEE_OTHER);
         }
+
+        $userActivities = $activitiesRepository->findBy(['destination_filter' => $tripDestination]);
 
         return $this->render('activities/new.html.twig', [
             'activity' => $activity,
-            'form' => $form,
+            'form' => $form->createView(),
+            'userActivities' => $userActivities,
         ]);
     }
 
