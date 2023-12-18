@@ -35,10 +35,10 @@
                         <tr>
                             <td>{{ userPackingItem.pakingList.name }}</td>
                             <td>
-                                <a href="/pakinglist/decrease-count/{tripId}/{tripPackingListItemId}" class="btn btn-sm btn-warning" onclick="decreaseCount({{ userPackingItem.id }})">-</a>
+                                <button type="button" class="btn btn-sm btn-warning" onclick="decreaseCount({{ userPackingItem.id }})">-</button>
                                 {% set myCount = userPackingItem.count %}
                                 count: {{ myCount }}
-                                <a href="/pakinglist/increase-count/{tripId}/{tripPackingListItemId}" class="btn btn-sm btn-warning" onclick="increaseCount({{ userPackingItem.id }})">+</a>
+                                <button type="button" class="btn btn-sm btn-warning" onclick="increaseCount({{ userPackingItem.id }})">+</button>
                             </td>
                         </tr>
                     {% else %}
