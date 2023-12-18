@@ -67,7 +67,7 @@ class JournalPostController extends AbstractController
             if ($brochureFile) {
                 $brochureFileName = $fileUploader->upload($brochureFile);
             } else{
-                $brochureFileName = "default.png";
+                $brochureFileName = "default_post.png";
             }
 
             $journalPost->setImage($brochureFileName);
