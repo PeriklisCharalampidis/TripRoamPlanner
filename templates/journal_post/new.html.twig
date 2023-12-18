@@ -3,11 +3,14 @@
 {% block title %}New JournalPost{% endblock %}
 
 {% block body %}
-    <h1>Create new JournalPost</h1>
-
-    {{ include('journal_post/_form.html.twig') }}
-
-    <a href="{{ path('app_journal_trip', {'id': trip.id}) }}">back to list</a>
+<div class="container-fluid pt-4">
+    <div class="col col-sm-10 col-md-8 col-lg-6 mx-auto">
+        <h1>Create new JournalPost</h1>
+        <div class="container-fluid border bg-light my-2">
+            {{ include('journal_post/_form.html.twig') }}
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 

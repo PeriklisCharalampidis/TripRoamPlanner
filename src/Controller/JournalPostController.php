@@ -25,7 +25,7 @@ class JournalPostController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_journal_trip', methods: ['GET'])]
-    public function trip(JournalPostRepository $journalPostRepository, Request $request): Response
+    public function trip(JournalPostRepository $journalPostRepository,EntityManagerInterface $entityManager, Request $request): Response
     {
         $trip_id = $request->get('id');
         $journal_posts = $journalPostRepository->findBy(['fk_trip' => $trip_id]);
@@ -37,7 +37,8 @@ class JournalPostController extends AbstractController
             $trip = $journal_post->getFkTrip();
         } else {
             // Handling the case when there are no journal posts for the trip
-            $trip = null;
+            $trip = $entityManager->getRepository(Trip::class)->find($trip_id);
+            // $trip = null;
         }
 
         return $this->render('journal_post/index.html.twig', [
