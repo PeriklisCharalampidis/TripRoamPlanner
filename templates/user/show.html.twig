@@ -5,38 +5,41 @@
 
 
 {% block body %}
-	<h1>Hello,
-		{{ user.firstName }}</h1>
+		<div class="container">
+			<h1>Hello, {{ user.firstName }}</h1>
+			<div class="grid">
+				<div class="row">
+					<div class="col-6">
+						<ul>
+							<li class="list-group-item d-flex justify-content-between align-items-start">
+								<div class="ms-2 me-auto">
+									<div class="fw-bold">First Name:</div>
+									{{ user.firstName }}
+								</div>
+							</li>
+							<li class="list-group-item d-flex justify-content-between align-items-start">
+								<div class="ms-2 me-auto">
+									<div class="fw-bold">Second Name:</div>
+									{{ user.lastName }}
+								</div>
+							</li>
+							<li class="list-group-item d-flex justify-content-between align-items-start">
+								<div class="ms-2 me-auto">
+									<div class="fw-bold">Email:</div>
+									{{ user.email }}
+								</div>
+							</li>
+							<a class="btn btn-outline-warning mt-3" href="{{ path('app_user_edit', {'id':user.id}) }}">Edit</a>
+						</ul>
+					</div>
 
-	<div class="container">
-		<div class="row">
-			<div class="col-md-6">
-				<ul>
-					<li class="list-group-item d-flex justify-content-between align-items-start">
-						<div class="ms-2 me-auto">
-							<div class="fw-bold">First Name:</div>
-							{{ user.firstName }}
-						</div>
-					</li>
-					<li class="list-group-item d-flex justify-content-between align-items-start">
-						<div class="ms-2 me-auto">
-							<div class="fw-bold">Second Name:</div>
-							{{ user.lastName }}
-						</div>
-					</li>
-					<li class="list-group-item d-flex justify-content-between align-items-start">
-						<div class="ms-2 me-auto">
-							<div class="fw-bold">Email:</div>
-							{{ user.email }}
-						</div>
-					</li>
-					<a class="btn btn-outline-warning mt-3" href="{{ path('app_user_edit', {'id':user.id}) }}">Edit</a>
-				</ul>
+					<div class="col-6">
+						<img src="{{ asset('images/travel.png') }}" class="img-fluid" alt="..." width="700" height="500" loading="lazy">
+					</div>
+				</div>
 			</div>
-			<div class="col-md-6">
-				<img src="{{ asset('images/travel.png') }}" class="img-fluid" alt="..." width="700" height="500" loading="lazy">
-			</div>
+				
+
+			
 		</div>
-	</div>
-
-</div></div>{% endblock %}
+{% endblock %}

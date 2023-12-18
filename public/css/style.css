@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&family=Ubuntu&display=swap');
 
 :root {
   --orange: #fc2f00;
@@ -10,7 +11,7 @@ html {
 }
 
 body {
-  min-height: 100vh;
+  min-height: 100vh!important;
 }
 /* navbar */ 
 .navbar {
@@ -182,6 +183,48 @@ body {
   }
 }
 
+/*my trips*/
+.myTrips h1 {
+  color: var(--orange);
+  font-family: 'Ubuntu', sans-serif;
+  justify-content: center;
+  text-align: center;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+.create-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-body .tripname {
+  color: var(--orange);
+  font-weight: bold;
+  text-align: center;
+}
+
+.card-body .destination {
+  font-style: italic;
+}
+
+.tripBtn:hover {
+  background-color: var(--orange);
+  color: #fff;
+}
+
+/*user profile*/
+
+.user h1 {
+  color: var(--orange);
+  font-family: 'Ubuntu', sans-serif;
+  justify-content: center;
+  text-align: center;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
 /* footer */ 
 
 .footer {
@@ -190,17 +233,11 @@ body {
   background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(252,47,0,1) 80%);
   color: #fff;
   left: 0;
-  bottom: 0;
+  /* bottom: 0; */
+  top: 100%;
   width: 100%;
- 
+  position: sticky;
 }
 
 
 /*///////*/
-h1 {
-  display: flex;
-  justify-content: center;
-  margin: 30px;
-  padding: 20px;
-  font-family: "Times New Roman", Times, serif;
-}

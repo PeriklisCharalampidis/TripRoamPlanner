@@ -4,43 +4,49 @@
 {% endblock %}
 
 {% block body %}
-	<h1>Trips</h1>
-	<div class="container">
+	<div class="container myTrips mb-5">
+		<h1>Trips</h1>
+		<div class="container">
 
-		<div class="row row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-xs-1 ">
+			<div class="row row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-xs-1 ">
 
-			{% for trip in trips %}
+				{% for trip in trips %}
 
-				<div class="card m-2">
+					<div class="card m-2">
 
-					<div class="card-body">
-						{% if trip.image is not null %}
-							<img class="card-img-top rounded" src="{{ asset('images/' ~ trip.image) }}" alt="Trip image">
-						{% endif %}
-						<h5 class="card-title">{{ trip.name }}</h5>
-						<p class="card-text">{{ trip.destination }}</p>
-						<p class="card-text">From
-							{{ trip.dateBegin ? trip.dateBegin|date('Y-m-d') : '' }}
-							until
-							{{ trip.dateEnd ? trip.dateEnd|date('Y-m-d') : '' }}</p>
+						<div class="card-body text-center">
+							{% if trip.image is not null %}
+								<img class="card-img-top rounded" src="{{ asset('images/' ~ trip.image) }}" alt="Trip image">
+							{% endif %}
+							<h5 class="card-title tripname">{{ trip.name }}</h5>
+							<p class="card-text destination">Destination: {{ trip.destination }}</p>
+							<p class="card-text">
+								<img width="32" height="32" src="https://img.icons8.com/external-others-ghozy-muhtarom/32/fc2f00/external-departure-travel-outline-others-ghozy-muhtarom.png" alt="external-departure-travel-outline-others-ghozy-muhtarom"/>
+								 {{ trip.dateBegin ? trip.dateBegin|date('Y-m-d') : '' }} <br>
+								<img width="32" height="32" src="https://img.icons8.com/external-others-ghozy-muhtarom/32/fc2f00/external-arrival-travel-outline-others-ghozy-muhtarom.png" alt="external-arrival-travel-outline-others-ghozy-muhtarom"/> 
+								{{ trip.dateEnd ? trip.dateEnd|date('Y-m-d') : '' }}</p>
 
-						{# <a class="btn btn-success" href="{{ path('app_trip_show', {'id': trip.id}) }}">Details</a> #}
-						{# <a class="btn btn-warning" href="{{ path('app_trip_edit', {'id': trip.id}) }}">edit</a> #}
-						<div class="btn-group">
-							<a class="btn btn-outline-dark" href="{{ path('app_trip', {'destination': trip.destination}) }}">Itinerary</a>
+							{# <a class="btn btn-success" href="{{ path('app_trip_show', {'id': trip.id}) }}">Details</a> #}
+							{# <a class="btn btn-warning" href="{{ path('app_trip_edit', {'id': trip.id}) }}">edit</a> #}
+							<div class="btn-group">
+								<a class="btn btn-outline-dark tripBtn" href="{{ path('app_trip', {'destination': trip.destination}) }}">Itinerary</a>
 
-							<a class="btn btn-outline-dark" href="{{ path('app_trips_packinglist', {'tripId': trip.id}) }}">Packing List</a>
+								<a class="btn btn-outline-dark tripBtn" href="{{ path('app_trips_packinglist', {'tripId': trip.id}) }}">Packing List</a>
 
-							<a class="btn btn-outline-dark" href="{{ path('app_journal_trip', {'id': trip.id}) }}">Journal</a>
+								<a class="btn btn-outline-dark tripBtn" href="{{ path('app_journal_trip', {'id': trip.id}) }}">Journal</a>
+							</div>
 						</div>
 					</div>
-				</div>
 
 
-			{% else %}
-				<p>no records found</p>
-			{% endfor %}
+				{% else %}
+					<p class="text-center">No trips yet</p>
+				{% endfor %}
+			</div>
+			<div class="create-container">
+				<a class="btn btn-outline-dark mt-4" href="{{ path('app_trip_new') }}">Create a new trip</a>
+			</div>
+			
 		</div>
-		<a class="btn btn-outline-dark mt-4" href="{{ path('app_trip_new') }}">Create a new Trip</a>
 	</div>
 {% endblock %}
