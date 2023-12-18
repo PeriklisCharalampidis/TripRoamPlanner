@@ -47,7 +47,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->fk_trips = new ArrayCollection();
     }
-
+    public function getTripCount(): int
+    {
+        return count($this->fk_trips ?? []);
+    }
     public function getId(): ?int
     {
         return $this->id;

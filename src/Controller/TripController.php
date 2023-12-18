@@ -7,7 +7,8 @@ use App\Form\TripType;
 use App\Entity\Activities;
 use App\Entity\User;
 use App\Repository\TripRepository;
-
+use App\Service\FileUploader;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,7 +33,7 @@ class TripController extends AbstractController
     }
 
     #[Route('/new', name: 'app_trip_new', methods: ['GET', 'POST'])]
-    public function new(Request $request): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
     {
         $trip = new Trip();
         $form = $this->createForm(TripType::class, $trip);
@@ -40,10 +41,18 @@ class TripController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $photo = $form->get('image')->getData();
+            if ($photo) {
+                $photoName = $fileUploader->upload($photo);
+            } else {
+                $photoName = "default.png";
+            }
+            $trip->setImage($photoName);
+
             $user = $this->getUser();
             $trip->setFkUser($user);
-            $this->entityManager->persist($trip);
-            $this->entityManager->flush();
+            $entityManager->persist($trip);
+            $entityManager->flush();
 
             $destination = $trip->getDestination();
 

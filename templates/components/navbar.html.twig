@@ -1,62 +1,88 @@
-    <!-- -------------- -->
-    <!-- --- navbar --- -->
-    <!-- -------------- --> 
-    <nav class="navbar navbar-expand-lg top" id="navbar">
-        <div class="container-fluid">
-          <a href="{{ path('app_homepage') }}">
-            <img class="ms-1 me-2" src="{{ asset('images/logo_roam.png') }}" alt="logo" style="width: 60px;">
-          </a>
-            <a class="navbar-brand logotext" href="{{ path('app_homepage') }}">roam</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                     {% if app.user %}
-                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ path('app_trip_index',{'id':app.user.id}) }}">My trips</a>
-                    </li>
-                   
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ path('app_user_show',{'id':app.user.id}) }}">My account</a>
-                    </li>
-                    {% endif %}
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Dropdown
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        </ul>
-                    </li>
-                </ul>
-                <ul class="navbar-nav mb-2 mb-lg-0">
-                    {% if app.user %}
-                      <li class="nav-item d-flex nav-text">
-                        <p class="align-self-center m-0 ">You're logged in as <strong>{{ app.user.email }}</strong></p>
-                      </li>
-                    {% endif %}
-                  </ul>
-                  <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    {% if app.user %}
-                      <li class="nav-item d-flex">
-                        <a class="nav-link align-self-center" href="/logout" style="color: #fc2f00; font-weight:bold;">Logout</a>
-                      </li>
-                    {% else %}
-                      <li class="nav-item d-flex me-2">
-                        <a class="nav-link align-self-center leftlink" href="{{ path('app_login') }}">Login</a>
-                      </li>
-                       <li class="nav-item d-flex me-2">
-                        <a class="nav-link align-self-center leftlink" href="{{ path('app_register') }}">Register</a>
-                      </li>
-                    {% endif %}
-                  </ul>            
-            </div>
-        </div>
-    </nav>
-    <!-- -------------- -->
-    <!-- ---- main ---- -->
-    <!-- -------------- -->
+<!-- -------------- -->
+<!-- --- navbar --- -->
+<!-- -------------- -->
+	<nav class="navbar navbar-expand-lg top" id="navbar"> <div class="container-fluid">
+		<a href="{{ path('app_homepage') }}">
+			<img class="ms-1 me-2" src="{{ asset('images/logo_roam.png') }}" alt="logo" style="width: 60px;">
+		</a>
+		<a class="navbar-brand logotext" href="{{ path('app_homepage') }}">roam</a>
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+				{% if app.user %}
+					<li class="nav-item">
+						<a class="nav-link active" aria-current="page" href="{{ path('app_trip_index',{'id':app.user.id}) }}">My trips</a>
+					</li>
+
+					<li class="nav-item">
+						<a class="nav-link active" aria-current="page" href="{{ path('app_user_show',{'id':app.user.id}) }}">My account
+							{% if app.user is not null %}
+
+
+								{% set maxStars = 5 %}
+								{# {% set tripCount = 5 %} #}
+
+								{% set tripCount = app.user.getTripCount() ?? 0 %}
+
+								<div class="rating">
+									{% for star in 1..maxStars %}
+										{% if star <= tripCount %}
+											{# <span class="star">&#9733;</span> #}
+											<i class="star">&#9733;</i>
+										{% else %}
+											<i class="star"></i>
+										{% endif %}
+									{% endfor %}
+								</div>
+							{% else %}
+								<p>User not logged in or does not exist.</p>
+							{% endif %}
+						</a>
+					</li>
+				</a>
+			</li>
+		{% endif %}
+		<li class="nav-item dropdown">
+			<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+				Dropdown
+			</a>
+			<ul class="dropdown-menu">
+				<li>
+					<a class="dropdown-item" href="#">Action</a>
+				</li>
+				<li>
+					<a class="dropdown-item" href="#">Another action</a>
+				</li>
+				<li><hr class="dropdown-divider"></li>
+				<li>
+					<a class="dropdown-item" href="#">Something else here</a>
+				</li>
+			</ul>
+		</li>
+	</ul>
+	<ul class="navbar-nav mb-2 mb-lg-0">
+		{% if app.user %}
+			<li class="nav-item d-flex nav-text">
+				<p class="align-self-center m-0 ">You're logged in as
+					<strong>{{ app.user.email }}</strong>
+				</p>
+			</li>
+		{% endif %}
+	</ul>
+	<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+		{% if app.user %}
+			<li class="nav-item d-flex">
+				<a class="nav-link align-self-center" href="/logout" style="color: #fc2f00; font-weight:bold;">Logout</a>
+			</li>
+		{% else %}
+			<li class="nav-item d-flex me-2">
+				<a class="nav-link align-self-center leftlink" href="{{ path('app_login') }}">Login</a>
+			</li>
+			<li class="nav-item d-flex me-2">
+				<a class="nav-link align-self-center leftlink" href="{{ path('app_register') }}">Register</a>
+			</li>
+		{% endif %}
+	</ul>
+</div></div></nav><!-- -------------- --><!-- ---- main ---- --><!-- -------------- -->
