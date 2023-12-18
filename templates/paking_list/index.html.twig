@@ -9,36 +9,18 @@
         <div class="col-md-8">
             <div class="card">
                 <h5 class="card-header">my chosen packing items</h5>
-                {#<table class="table">
-                    <tbody>
-                    {% for userPackingItem in userPackingItems %}
-                        <tr>
-                            <td>{{ userPackingItem.name }}</td>
-                            <td><button class="btn btn-sm btn-warning">+</button></td>
-                            {% if userPackingItem.tripPackingItemCount > 0 %}
-                                <td>count: {{ userPackingItem.tripPackingItemCount }}</td>
-                            {% else %}
-                                <td>count: 0</td>
-                            {% endif %}
-                            <td><button class="btn btn-sm btn-warning">-</button></td>
-                        </tr>
-                    {% else %}
-                        <tr>
-                            <td>Nothing here yet</td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>#}
                 <table class="table">
                     <tbody>
                     {% for userPackingItem in userPackingItems %}
                         <tr>
                             <td>{{ userPackingItem.pakingList.name }}</td>
                             <td>
-                                <button type="button" class="btn btn-sm btn-warning" onclick="decreaseCount({{ userPackingItem.id }})">-</button>
+                                {#<button type="button" class="btn btn-sm btn-warning" onclick="decreaseCount({{ userPackingItem.id }})">-</button>#}
+                                <a href="{{ path('app_decrease_count', {'id': userPackingItem.id}) }}" type="button" class="btn btn-sm btn-warning">-</a>
                                 {% set myCount = userPackingItem.count %}
                                 count: {{ myCount }}
-                                <button type="button" class="btn btn-sm btn-warning" onclick="increaseCount({{ userPackingItem.id }})">+</button>
+                                {#<button type="button" class="btn btn-sm btn-warning" onclick="increaseCount({{ userPackingItem.id }})">+</button>#}
+                                <a href="{{ path('app_increase_count', {'id': userPackingItem.id}) }}" type="button" class="btn btn-sm btn-warning">+</a>
                             </td>
                         </tr>
                     {% else %}
@@ -79,7 +61,7 @@
                     {% endfor %}
                     </tbody>
                 </table>
-                <a href="{{ path('app_packingItem_new', {'tripId': tripId}) }}" class="btn btn-warning m-2">Create new</a>
+                <a href="{{ path('app_packingItem_new', {'id': id}) }}" class="btn btn-warning m-2">Create new</a>
             </div>
         </div>
     </div>
