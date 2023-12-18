@@ -6,8 +6,9 @@
 {% block body %}
 	<div class="pt-2 pb-5">
     <div class="container">
+        <div id="liveAlertPlaceholder"></div>
         <h1>Activities</h1>
-        <a href="{{ path('app_activities_new') }}" class="btn btn-warning mb-2">Create new</a>
+        <a href="{{ path('app_activities_new', {'destination': tripDestination}) }}" class="btn btn-warning mb-2">Create new</a>
 
         <div class="row">
             <div class="col-md-8">

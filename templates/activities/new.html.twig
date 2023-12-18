@@ -4,10 +4,13 @@
 {% endblock %}
 
 {% block body %}
-	<h1>Create new Activities</h1>
-	<div class="container">
-		{{ include('activities/_form.html.twig') }}
+    <h1>Create new Activities</h1>
+    <div class="container">
+        {{ include('activities/_form.html.twig') }}
 
-		<a href="{{ path('app_activities_index') }}">back to list</a>
-	</div>
+        {% if tripDestination is defined %}
+            <a class="btn btn-success mt-2" href="{{ path('app_trip', {'destination': tripDestination}) }}">Back to the trips</a>
+        {% endif %}
+    </div>
 {% endblock %}
+

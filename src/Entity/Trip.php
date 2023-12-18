@@ -30,7 +30,7 @@ class Trip
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $date_end = null;
 
-    #[ORM\ManyToMany(targetEntity: Activities::class, inversedBy: 'fk_trips')]
+    #[ORM\ManyToMany(targetEntity: Activities::class, inversedBy: 'fk_trips', cascade: ['persist'])]
     private Collection $fk_activities;
 
     #[ORM\ManyToMany(targetEntity: PakingList::class, inversedBy: 'fk_trips')]

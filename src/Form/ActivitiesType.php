@@ -24,16 +24,6 @@ class ActivitiesType extends AbstractType
             ->add('date', null, [
                 'attr' => ['class' => 'form-control '],
                 "widget" => "single_text"
-            ])
-            ->add('destination_filter', null, [
-                'attr' => ['class' => 'form-control']
-            ])
-            ->add('isPredefined', ChoiceType::class, [
-                'choices' => [
-                    'true' => 'true',
-                    'false' => 'false'
-                ],
-                'attr' => ['class' => 'form-control']
             ]);
 
         // ->add('fk_trips', EntityType::class, [

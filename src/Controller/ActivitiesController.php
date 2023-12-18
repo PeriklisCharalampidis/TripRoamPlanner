@@ -41,14 +41,18 @@ class ActivitiesController extends AbstractController
             $isPredefined = $activity->isIsPredefined();
 
             // maybe need the destination to post the result straight to user activities
-            $tripDestination = $request->get('destination');
+            // $tripDestination = $request->get('destination');
             $trip = $tripRepository->findOneBy(['destination' => $tripDestination]);
 
             if (!$isPredefined && $trip) {
                 $trip->addFkActivity($activity);
+                $activity->setIsPredefined(0);
+                $activity->setDestinationFilter($tripDestination);
                 $entityManager->persist($trip);
                 $entityManager->flush();
                 $userActivities = $activitiesRepository->findBy(['destination_filter' => $tripDestination]);
+
+                return $this->redirectToRoute('app_trip', ['destination' => $tripDestination]);
 
                 return $this->render('activities/new.html.twig', [
                     'activity' => $activity,
@@ -67,6 +71,7 @@ class ActivitiesController extends AbstractController
             'activity' => $activity,
             'form' => $form->createView(),
             'userActivities' => $userActivities,
+            'tripDestination' => $tripDestination,
         ]);
     }
 
@@ -79,7 +84,7 @@ class ActivitiesController extends AbstractController
     ): Response {
         $tripDestination = $request->get('destination');
         $trip = $tripRepository->findOneBy(['destination' => $tripDestination]);
-        $activities = $activitiesRepository->findBy(['destination_filter' => $tripDestination]);
+        $activities = $activitiesRepository->findBy(['destination_filter' => $tripDestination, 'isPredefined' => 1]);
 
         if ($request->get("activityAdded")) {
             $activityIds = $request->get('activId');
