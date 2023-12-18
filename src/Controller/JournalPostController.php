@@ -110,7 +110,7 @@ class JournalPostController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $brochureFile = $form->get('image')->getData();
             if ($brochureFile) {
-                if($journalPost -> getImage() != "default.png"){
+                if($journalPost -> getImage() != "default_post.png"){
                     unlink($this->getParameter("images_directory") . "/" . $journalPost->getImage());
                 }
                 $brochureFileName = $fileUploader->upload($brochureFile);
@@ -138,6 +138,9 @@ class JournalPostController extends AbstractController
         $fk_trip = $journalPost->getFkTrip()->getId();
 
         if ($this->isCsrfTokenValid('delete'.$journalPost->getId(), $request->request->get('_token'))) {
+            if($journalPost -> getImage() != "default_trip.png"){
+                unlink($this->getParameter("images_directory") . "/" . $journalPost->getImage());
+            }
             $entityManager->remove($journalPost);
             $entityManager->flush();
         }
