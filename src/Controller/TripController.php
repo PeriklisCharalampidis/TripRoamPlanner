@@ -45,7 +45,7 @@ class TripController extends AbstractController
             if ($photo) {
                 $photoName = $fileUploader->upload($photo);
             } else {
-                $photoName = "default.png";
+                $photoName = "default.trip.png";
             }
             $trip->setImage($photoName);
 
