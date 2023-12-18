@@ -209,8 +209,8 @@ class PakingListController extends AbstractController
     }
 
     // increase and decrease the count value in TripPackingListItem
-    #[Route('/increase-count/{tripId}/{tripPackingListItemId}', name: 'app_increase_count', methods: ['GET','POST'])]
-    public function increaseCount(Request $request, $tripPackingListItemId, EntityManagerInterface $entityManager): Response
+    #[Route('/increase-count/{tripPackingListItemId}', name: 'app_increase_count', methods: ['GET','POST'])]
+    public function increaseCount(Request $request, TripPackingListItem $tripPackingListItemId, EntityManagerInterface $entityManager): Response
     {
         $tripId = $request->get('tripId');
         $tripPackingListItem = $entityManager->getRepository(TripPackingListItem::class)->find($tripPackingListItemId);
@@ -225,8 +225,8 @@ class PakingListController extends AbstractController
         ]);
     }
 
-    #[Route('/decrease-count/{tripId}/{tripPackingListItemId}', name: 'app_decrease_count', methods: ['GET','POST'])]
-    public function decreaseCount(Request $request, $tripPackingListItemId, EntityManagerInterface $entityManager): Response
+    #[Route('/decrease-count/{tripPackingListItemId}', name: 'app_decrease_count', methods: ['GET','POST'])]
+    public function decreaseCount(Request $request, TripPackingListItem $tripPackingListItemId, EntityManagerInterface $entityManager): Response
     {
         $tripId = $request->get('tripId');
         $tripPackingListItem = $entityManager->getRepository(TripPackingListItem::class)->find($tripPackingListItemId);
