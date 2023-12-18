@@ -209,9 +209,10 @@ class PakingListController extends AbstractController
     }
 
     // increase and decrease the count value in TripPackingListItem
-    #[Route('/increase-count/{tripPackingListItemId}', name: 'app_increase_count', methods: ['GET','POST'])]
-    public function increaseCount($tripPackingListItemId, EntityManagerInterface $entityManager): Response
+    #[Route('/increase-count/{tripId}/{tripPackingListItemId}', name: 'app_increase_count', methods: ['GET','POST'])]
+    public function increaseCount(Request $request, $tripPackingListItemId, EntityManagerInterface $entityManager): Response
     {
+        $tripId = $request->get('tripId');
         $tripPackingListItem = $entityManager->getRepository(TripPackingListItem::class)->find($tripPackingListItemId);
 
         if ($tripPackingListItem) {
@@ -220,13 +221,14 @@ class PakingListController extends AbstractController
         }
 
         return $this->redirectToRoute('app_trips_packinglist', [
-            'tripId' => $tripPackingListItem->getTrip()->getId(),
+            'tripId' => $tripId,
         ]);
     }
 
-    #[Route('/decrease-count/{tripPackingListItemId}', name: 'app_decrease_count', methods: ['GET','POST'])]
-    public function decreaseCount($tripPackingListItemId, EntityManagerInterface $entityManager): Response
+    #[Route('/decrease-count/{tripId}/{tripPackingListItemId}', name: 'app_decrease_count', methods: ['GET','POST'])]
+    public function decreaseCount(Request $request, $tripPackingListItemId, EntityManagerInterface $entityManager): Response
     {
+        $tripId = $request->get('tripId');
         $tripPackingListItem = $entityManager->getRepository(TripPackingListItem::class)->find($tripPackingListItemId);
 
         if ($tripPackingListItem && $tripPackingListItem->getCount() > 0) {
@@ -235,7 +237,7 @@ class PakingListController extends AbstractController
         }
 
         return $this->redirectToRoute('app_trips_packinglist', [
-            'tripId' => $tripPackingListItem->getTrip()->getId(),
+            'tripId' => $tripId,
         ]);
     }
 }
