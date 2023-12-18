@@ -4,21 +4,19 @@
 {% block title %}JournalPost Index{% endblock %}
 
 {% block body %}
-    <div class="container-fluid mt-4">
-        
-
+    <div class="container-fluid mt-4">        
         {% if journal_posts|length > 0 %}
         <div class="container mt-4">
             <!-- Trip Header Image -->
             <div class="card mb-4 border-0">
                 <div class="card-body text-center">
-                    <h1 class="card-title">My Blog of '{{ trip.name }}'</h1>
+                    <h1 class="card-title">My blog posts of&nbsp;<strong>{{ trip.name }}</strong></h1>
+                    <a class="btn btn-primary" href="{{ path('app_journal_post_new', {'id': app.request.get('id')} ) }}">Create New Post</a>
                 </div>
                 {% if trip.image is not null %}
-                    <img class="card-img-top rounded" src="{{ asset('images/' ~ trip.image) }}" alt="Trip image">
+                    <img class="card-img-top rounded mx-auto d-block" style="object-fit: cover;" src="{{ asset('images/' ~ trip.image) }}" alt="Trip image">
                 {% endif %}                
             </div>
-    
             <!-- Blog Post Entries -->
             <div class="card mb-4 border-0">
                 <div class="card-body rounded" style="background-color: lightgrey;">
@@ -45,13 +43,15 @@
             </div>
         </div>
     {% else %}
-        <div class="container text-center mt-4">
-            <p>No records found</p>
+        <div class="container mt-4">
+            <!-- Trip Header Image -->
+            <div class="card mb-4 border-0">
+                <div class="card-body text-center">
+                    <h1 class="card-title">My blog posts of&nbsp;<strong>{{ trip.name }}</strong></h1>
+                    <a class="btn btn-primary" href="{{ path('app_journal_post_new', {'id': app.request.get('id')} ) }}">Create your first post</a>
+                </div>
+            </div>
         </div>
-    {% endif %}
-    
-        <div class="d-flex justify-content-center mt-4">
-            <a class="btn btn-primary" href="{{ path('app_journal_post_new', {'id': app.request.get('id')} ) }}">Create New Post</a>
-        </div>
+    {% endif %}    
     </div>
 {% endblock %}

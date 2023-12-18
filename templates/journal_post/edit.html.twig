@@ -3,14 +3,26 @@
 {% block title %}Edit JournalPost{% endblock %}
 
 {% block body %}
-    <h1>Edit JournalPost</h1>
-
-    {{ include('journal_post/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('app_journal_trip', {'id': trip.id}) }}">back to list</a>
-
-    {{ include('journal_post/_delete_form.html.twig') }}
+<div class="container-fluid pt-4">
+    <div class="col col-sm-10 col-md-8 col-lg-6 mx-auto">
+        <h1>Edit JournalPost</h1>
+        <div class="container-fluid border bg-light my-2">
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <div class="container-fluid d-flex justify-content-center">
+                <a class="btn btn-outline-primary rounded-1 mx-2 my-2" href="{{ path('app_journal_trip', {'id': trip.id}) }}">Back</a>
+                <button class="btn btn-outline-success rounded-1 mx-2 my-2">{{ button_label|default('Save') }}</button>
+            {{ form_end(form) }}
+            {{ include('journal_post/_delete_form.html.twig') }}
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
+
+
+   
+
 
 
 

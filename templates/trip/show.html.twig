@@ -12,7 +12,10 @@
 		<div class="card ">
 
 			<div class="card-body">
-				<img src="{{ trip.image }}" class="card-img-top" alt="...">
+				{% if trip.image is not null %}
+					<img class="card-img-top rounded" src="{{ asset('images/' ~ trip.image) }}" alt="Trip image">
+				{% endif %}
+				{# <img src="{{ trip.image }}" class="card-img-top" alt="..."> #}
 
 				<h5 class="card-title mt-3">{{ trip.name }}</h5>
 
