@@ -137,8 +137,8 @@ class JournalPostController extends AbstractController
     {
         $fk_trip = $journalPost->getFkTrip()->getId();
 
-        if ($this->isCsrfTokenValid('delete'.$journalPost->getId(), $request->request->get('_token'))) {
-            if($journalPost -> getImage() != "default_trip.png"){
+        if ($this->isCsrfTokenValid('delete'.$journalPost->getId(), $request->request->get('_token'))) {        
+            if($journalPost -> getImage() != "default_post.png"){
                 unlink($this->getParameter("images_directory") . "/" . $journalPost->getImage());
             }
             $entityManager->remove($journalPost);
