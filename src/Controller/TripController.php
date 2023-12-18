@@ -77,10 +77,10 @@ class TripController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_trip_index', methods: ['GET'])]
+    #[Route('/', name: 'app_trip_index', methods: ['GET'])]
     public function index(TripRepository $tripRepository, Request $request): Response
     {
-        $user_id = $request->get('id');
+        $user_id = $this->getUser()->getId();
 
         $trips = $tripRepository->findBy(['fk_user' => $user_id]);
 

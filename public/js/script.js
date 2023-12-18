@@ -118,7 +118,7 @@ function increaseCount(tripPackingListItemId) {
           // Reload the page after successful increase
           location.reload();
         }
-        location.reload();
+        /*location.reload();*/
       });
 }
 
@@ -130,6 +130,6 @@ function decreaseCount(tripPackingListItemId) {
           // Reload the page after successful decrease
           location.reload();
         }
-        location.reload();
+        /*location.reload();*/
       });
 }
