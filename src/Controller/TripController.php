@@ -24,13 +24,13 @@ class TripController extends AbstractController
     {
         $this->entityManager = $entityManager;
     }
-    #[Route('/', name: 'app_all_trips_index', methods: ['GET'])]
+/*    #[Route('/', name: 'app_all_trips_index', methods: ['GET'])]
     public function index2(TripRepository $tripRepository, Request $request): Response
     {
         return $this->render('trip/index.html.twig', [
             'trips' => $tripRepository->findAll(),
         ]);
-    }
+    }*/
 
     #[Route('/new', name: 'app_trip_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
@@ -77,11 +77,11 @@ class TripController extends AbstractController
         ]);
     }
 
-    #[Route('/', name: 'app_trip_index', methods: ['GET'])]
+    #[Route('/', name: 'app_trip_index', methods: ['GET','POST'])]
     public function index(TripRepository $tripRepository, Request $request): Response
     {
         $user_id = $this->getUser()->getId();
-
+        /*dd($user_id);*/
         $trips = $tripRepository->findBy(['fk_user' => $user_id]);
 
         return $this->render('trip/index.html.twig', [

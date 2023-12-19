@@ -22,13 +22,10 @@ class PakingListController extends AbstractController
     #[Route('/mytrip/{id}/new', name: 'app_packingItem_new', methods: ['GET', 'POST'])]
     public function new(TripRepository $tripRepository,Trip $trip,Request $request, EntityManagerInterface $entityManager): Response
     {
-        /*$trip_season = $request->get('season');*/
-
         $pakingList = new PakingList();
         $pakingList->setIsPredefined(false); // Set the default value here
         $customFilter = 'custom_' . $trip->getId();
         $pakingList->setSeasonFilter($customFilter);
-        /*$pakingList->setSeasonFilter('custom');*/
 
         $form = $this->createForm(PakingListType::class, $pakingList);
         $form->handleRequest($request);
@@ -36,7 +33,6 @@ class PakingListController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($pakingList);
             $entityManager->flush();
-
 
             // Ensure the trip exists
             if ($trip) {
@@ -47,7 +43,6 @@ class PakingListController extends AbstractController
             }
 
             return $this->redirectToRoute('app_trips_packinglist', [
-                /*'season' => $trip_season,*/
                 'id' => $trip->getId(),
                 ], Response::HTTP_SEE_OTHER);
         }
@@ -68,9 +63,6 @@ class PakingListController extends AbstractController
         EntityManagerInterface $entityManager
     ): Response
     {
-
-
-
         $customFilter = 'custom_' . $trip->getId();
 
         $tripDateBegin = $trip->getDateBegin();
@@ -95,7 +87,7 @@ class PakingListController extends AbstractController
 
         $criteria = ['season_filter' => [
             $season,
-            /*'any',*/
+            'any',
             $customFilter,
             ]];
         /*dd($criteria);*/
