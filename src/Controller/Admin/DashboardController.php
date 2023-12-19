@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Controller\HomepageController;
 use App\Entity\Activities;
 use App\Entity\JournalPost;
 use App\Entity\PakingList;
@@ -52,5 +53,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Activities', 'fas fa-list', Activities::class);
         yield MenuItem::linkToCrud('JournalPost', 'fas fa-list', JournalPost::class);
         yield MenuItem::linkToCrud('Trip', 'fas fa-list', Trip::class);
+        yield MenuItem::linkToUrl('Back to Homepage', 'fas fa-list', $this->generateUrl('app_homepage'));
     }
 }

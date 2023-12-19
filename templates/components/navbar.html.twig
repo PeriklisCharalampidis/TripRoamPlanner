@@ -41,6 +41,11 @@
 							{% endif %}
 						</a>
 					</li>
+					{% if is_granted("ROLE_ADMIN") %}
+					<li class="nav-item">
+						<a class="nav-link active" aria-current="page" href="{{ path('admin_admin') }}">Admin Dashboard</a>
+					</li>
+					{% endif %}
 				</a>
 			</li>
 		{% endif %}
