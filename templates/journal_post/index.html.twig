@@ -4,54 +4,158 @@
 {% block title %}JournalPost Index{% endblock %}
 
 {% block body %}
-    <div class="container-fluid mt-4">        
+    <div class="container-fluid mt-4">
         {% if journal_posts|length > 0 %}
-        <div class="container mt-4">
-            <!-- Trip Header Image -->
-            <div class="card mb-4 border-0">
-                <div class="card-body text-center">
-                    <h1 class="card-title">My blog posts of&nbsp;<strong>{{ trip.name }}</strong></h1>
-                    <a class="btn btn-primary" href="{{ path('app_journal_post_new', {'id': app.request.get('id')} ) }}">Create New Post</a>
+            <div class="container mt-4">
+                <!-- Trip Header Image -->
+                <div class="card mb-4 border-0">
+                    <div class="card-body text-center">
+                        <h1 class="card-title">My blog posts of&nbsp;<strong>{{ trip.name }}</strong></h1>
+                        <div class="button-group">
+                            <a class="btn btn-primary" href="{{ path('app_journal_post_new', {'id': app.request.get('id')} ) }}">Create New Post</a>
+                            <!-- Share button with pop-up -->
+                            <button class="btn text-white btn-secondary" onclick="openSharePopup()">Share</button>
+                        </div>
+                    </div>
+                    {% if trip.image is not null %}
+                        <img class="card-img-top rounded mx-auto d-block" style="object-fit: cover;" src="{{ asset('images/' ~ trip.image) }}" alt="Trip image">
+                    {% endif %}
                 </div>
-                {% if trip.image is not null %}
-                    <img class="card-img-top rounded mx-auto d-block" style="object-fit: cover;" src="{{ asset('images/' ~ trip.image) }}" alt="Trip image">
-                {% endif %}                
-            </div>
-            <!-- Blog Post Entries -->
-            <div class="card mb-4 border-0">
-                <div class="card-body rounded" style="background-color: lightgrey;">
-                    {% for journal_post in journal_posts|sort((b, a) => a.date <=> b.date) %}
-                        <div class="card mb-3">
-                            <div class="row g-0">
-                                <div class="col-md-5">
-                                    <img class="card-img" src="{{ asset('images/' ~ journal_post.image) }}" alt="Post Image">
-                                </div>
-                                <div class="col-md-7">
-                                    <div class="card-body">
-                                        <h5 class="card-title mb-3 text-center">Post {{ journal_post.date ? journal_post.date|date('Y-m-d') : '' }}</h5>
-                                        <p class="card-text">{{ journal_post.text }}</p>
-                                        <hr>
-                                        <div class="text-center">
-                                            <a class="btn btn-warning mx-1 my-2" href="{{ path('app_journal_post_edit', {'id': journal_post.id}) }}">Edit</a>
+                <!-- Blog Post Entries -->
+                <div class="card mb-4 border-0">
+                    <div class="card-body rounded" style="background-color: lightgrey;">
+                        {% for journal_post in journal_posts|sort((b, a) => a.date <=> b.date) %}
+                            <div class="card mb-3">
+                                <div class="row g-0">
+                                    <div class="col-md-5">
+                                        <img class="card-img" src="{{ asset('images/' ~ journal_post.image) }}" alt="Post Image">
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="card-body">
+                                            <h5 class="card-title mb-3 text-center">Post {{ journal_post.date ? journal_post.date|date('Y-m-d') : '' }}</h5>
+                                            <p class="card-text">{{ journal_post.text }}</p>
+                                            <hr>
+                                            <div class="text-center">
+                                                <a class="btn btn-warning mx-1 my-2" href="{{ path('app_journal_post_edit', {'id': journal_post.id}) }}">Edit</a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="container mt-4">
+                <!-- Trip Header Image -->
+                <div class="card mb-4 border-0">
+                    <div class="card-body text-center">
+                        <h1 class="card-title">My blog posts of&nbsp;<strong>{{ trip.name }}</strong></h1>
+                        <div class="button-group">
+                            <a class="btn btn-primary" href="{{ path('app_journal_post_new', {'id': app.request.get('id')} ) }}">Create your first post</a>
                         </div>
-                    {% endfor %}
+                    </div>
                 </div>
             </div>
-        </div>
-    {% else %}
-        <div class="container mt-4">
-            <!-- Trip Header Image -->
-            <div class="card mb-4 border-0">
-                <div class="card-body text-center">
-                    <h1 class="card-title">My blog posts of&nbsp;<strong>{{ trip.name }}</strong></h1>
-                    <a class="btn btn-primary" href="{{ path('app_journal_post_new', {'id': app.request.get('id')} ) }}">Create your first post</a>
-                </div>
-            </div>
-        </div>
-    {% endif %}    
+        {% endif %}
     </div>
+
+    <!-- Share modal -->
+    <div id="shareModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeSharePopup()">&times;</span>
+            <h2 class="text-center">Share on Social Media</h2>
+            <div class="share-icons text-center">
+                <a href="#" class="share-icon"><i class="fab fa-facebook fa-3x"></i></a>
+                <a href="#" class="share-icon"><i class="fab fa-instagram fa-3x"></i></a>
+                <a href="#" class="share-icon"><i class="fab fa-twitter fa-3x"></i></a>
+            </div>
+            <div class="text-center mt-3">
+                <p><span id="url">{{ app.request.schemeAndHttpHost ~ app.request.requestUri }}</span></p>
+                <button class="btn btn-primary btn-sm" id="copyButton" onclick="copyToClipboard()">Copy Url</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openSharePopup() {
+            document.getElementById('shareModal').style.display = 'flex';
+            resetCopyButton();
+        }
+
+        function closeSharePopup() {
+            document.getElementById('shareModal').style.display = 'none';
+            resetCopyButton();
+        }
+
+        function resetCopyButton() {
+            var copyButton = document.getElementById('copyButton');
+            copyButton.innerText = 'Copy Url';
+            copyButton.disabled = false;
+        }
+
+        function copyToClipboard() {
+            var urlElement = document.getElementById('url');
+            var urlText = urlElement.innerText;
+
+            var textarea = document.createElement('textarea');
+            textarea.value = urlText;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+
+            var copyButton = document.getElementById('copyButton');
+            copyButton.innerText = 'Copied!';
+            copyButton.disabled = true;
+        }
+    </script>
+
+    <style>
+        /* Style for the modal and its content */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            justify-content: center; /* Center content vertically */
+            align-items: center; /* Center content horizontally */
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 50%; /* Adjust width as needed */
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .share-icons {
+            margin-top: 20px;
+        }
+
+        .share-icon {
+            margin: 0 10px;
+        }
+    </style>
 {% endblock %}
