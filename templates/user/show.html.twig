@@ -5,41 +5,53 @@
 
 
 {% block body %}
-		<div class="container">
-			<h1>Hello, {{ user.firstName }}</h1>
-			<div class="grid">
-				<div class="row">
-					<div class="col-6">
-						<ul>
-							<li class="list-group-item d-flex justify-content-between align-items-start">
-								<div class="ms-2 me-auto">
-									<div class="fw-bold">First Name:</div>
-									{{ user.firstName }}
-								</div>
-							</li>
-							<li class="list-group-item d-flex justify-content-between align-items-start">
-								<div class="ms-2 me-auto">
-									<div class="fw-bold">Second Name:</div>
-									{{ user.lastName }}
-								</div>
-							</li>
-							<li class="list-group-item d-flex justify-content-between align-items-start">
-								<div class="ms-2 me-auto">
-									<div class="fw-bold">Email:</div>
-									{{ user.email }}
-								</div>
-							</li>
-							<a class="btn btn-outline-warning mt-3" href="{{ path('app_user_edit', {'id':user.id}) }}">Edit</a>
-						</ul>
-					</div>
-
-					<div class="col-6">
-						<img src="{{ asset('images/travel.png') }}" class="img-fluid" alt="..." width="700" height="500" loading="lazy">
-					</div>
-				</div>
-			</div>
-				
-
-			
+	<div class="container userpage text-center">
+    	<h1>Hello, {{ user.firstName }}!</h1>
+		<img class="userpic" src="{{ asset('images/travel.png') }}" alt="Userpic">
+        <div class="details text-start">
+            <div class="label">First name:</div>
+            <div class="value">{{ user.firstName }}</div>
+            <div class="label">Last name:</div>
+            <div class="value">{{ user.lastName }}</div>
+            <div class="label">Email:</div>
+            <div class="value">{{ user.email }}</div>
+        </div>
+		<div class="actions">
+			<a class="btn edit mt-3" href="{{ path('app_user_edit', {'id':user.id}) }}">Edit user info</a>
 		</div>
+	</div>
+    {# <div class="grid">
+        <div class="row">
+            <div class="col-md-6 d-flex justify-content-between align-items-center">
+                <ul class="text-start">
+                    <li class="list-group-item">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <p><span class="fw-bold">First Name: </span><br> 
+                            {{ user.firstName }}</p>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="d-flex justify-content-between align-items-center">
+							<p><span class="fw-bold">Last Name: </span><br> 
+                            {{ user.lastName }}</p>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="d-flex justify-content-between align-items-center">
+							<p><span class="fw-bold">Email: </span><br> 
+                            {{ user.email }}</p>
+                        </div>
+                    </li>
+                    <a class="btn edit mt-3" href="{{ path('app_user_edit', {'id':user.id}) }}">Edit</a>
+                </ul>
+            </div>
+            <div class="col-md-6 text-center">
+                <div class="d-flex justify-content-center align-items-center">
+                    <img src="{{ asset('images/travel.png') }}" class="img-fluid" alt="userpic" width="400" height="500" loading="lazy">
+                </div>
+            </div>
+        </div>
+    </div>
+</div> #}
+
 {% endblock %}

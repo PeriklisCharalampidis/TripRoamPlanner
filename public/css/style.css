@@ -216,13 +216,68 @@ body {
 
 /*user profile*/
 
-.user h1 {
+.userpage {
+  max-width: 50rem;
+  margin: 1.25rem auto;
+  background-color: #fff;
+  padding: 1.25rem;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding-bottom: 2rem;
+}
+
+.userpage img {
+  text-align: center;
+}
+.userpage h1 {
   color: var(--orange);
   font-family: 'Ubuntu', sans-serif;
-  justify-content: center;
+  justify-content: center; 
   text-align: center;
   padding-top: 3rem;
-  padding-bottom: 3rem;
+  padding-bottom: 2rem;
+}
+
+.userpic {
+  max-width: 100%;
+  height: auto;
+  align-items: center;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.details {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 0.6rem;
+  margin-top: 1.25rem;
+  margin-bottom: 3rem;
+  padding-left: 8rem;
+}
+
+.details .label {
+  font-weight: bold;
+}
+
+.details .value {
+  padding: 5px;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.edit {
+  background-color: #fff;
+  color: var(--orange);
+  border: 1px solid var(--orange);
+}
+
+.edit:hover {
+  background-color: var(--orange);
+  color: #fff;
 }
 
 /* footer */ 
