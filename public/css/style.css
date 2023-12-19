@@ -238,10 +238,10 @@ body {
   white-space: nowrap;
 }
 
-
 .card-body img {
   object-fit: cover;
 }
+
 .card-body .destination {
   font-style: italic;
 }
@@ -316,6 +316,9 @@ body {
   background-color: var(--orange);
   color: #fff;
 }
+
+/*//activities */
+
 
 /* footer */ 
 

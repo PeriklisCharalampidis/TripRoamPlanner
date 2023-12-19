@@ -20,11 +20,11 @@ class ActivitiesType extends AbstractType
             ])
             ->add('location', null, [
                 'attr' => ['class' => 'form-control']
-            ])
-            ->add('date', null, [
-                'attr' => ['class' => 'form-control '],
-                "widget" => "single_text"
             ]);
+        // ->add('date', null, [
+        //     'attr' => ['class' => 'form-control '],
+        //     "widget" => "single_text"
+        // ]);
 
         // ->add('fk_trips', EntityType::class, [
         //     'class' => Trip::class,

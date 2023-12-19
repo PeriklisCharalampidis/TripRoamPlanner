@@ -7,6 +7,9 @@ use App\Entity\Trip;
 use App\Form\ActivitiesType;
 use App\Repository\ActivitiesRepository;
 use App\Repository\TripRepository;
+use DateInterval;
+use DatePeriod;
+use DateTime;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -30,39 +33,56 @@ class ActivitiesController extends AbstractController
     }
 
     #[Route('/new', name: 'app_activities_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, ActivitiesRepository $activitiesRepository, TripRepository $tripRepository): Response
-    {
+    public function new(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        ActivitiesRepository $activitiesRepository,
+        TripRepository $tripRepository
+    ): Response {
         $activity = new Activities();
         $form = $this->createForm(ActivitiesType::class, $activity);
         $form->handleRequest($request);
         $tripDestination = $request->query->get('destination');
+        $trip = $tripRepository->findOneBy(['destination' => $tripDestination]);
+
+        // generating random date within trip date period for custom activities - not woeking but giving current date(now)
+        $dateBegin = new DateTime($request->query->get('date_begin'));
+        $dateEnd = new DateTime($request->query->get('date_end'));
+        $dateInterval = new DateInterval('P1D');
+        $dateRange = new DatePeriod($dateBegin, $dateInterval, $dateEnd->modify('+1 day')); // Adding 1 day to include the end date
+
+        $tripDates = [];
+        foreach ($dateRange as $date) {
+            $tripDates[] = $date->format('Y-m-d');
+        }
+
+        if (!empty($tripDates)) {
+            $randomIndex = array_rand($tripDates);
+            $randomDate = new DateTime($tripDates[$randomIndex]);
+            $activity->setDate($randomDate);
+        } else {
+            $defaultDate = new DateTime('now');
+            $activity->setDate($defaultDate);
+        }
+        // end of setting predefinded date
 
         if ($form->isSubmitted() && $form->isValid()) {
             $isPredefined = $activity->isIsPredefined();
-
-            // maybe need the destination to post the result straight to user activities
-            // $tripDestination = $request->get('destination');
             $trip = $tripRepository->findOneBy(['destination' => $tripDestination]);
 
             if (!$isPredefined && $trip) {
                 $trip->addFkActivity($activity);
                 $activity->setIsPredefined(0);
                 $activity->setDestinationFilter($tripDestination);
-                $entityManager->persist($trip);
-                $entityManager->flush();
-                $userActivities = $activitiesRepository->findBy(['destination_filter' => $tripDestination]);
-
-                return $this->redirectToRoute('app_trip', ['destination' => $tripDestination]);
-
-                return $this->render('activities/new.html.twig', [
-                    'activity' => $activity,
-                    'form' => $form->createView(),
-                    'userActivities' => $userActivities,
-                ]);
             }
 
             $entityManager->persist($activity);
             $entityManager->flush();
+
+            if (!$isPredefined && $trip) {
+                $userActivities = $activitiesRepository->findBy(['destination_filter' => $tripDestination]);
+                return $this->redirectToRoute('app_trip', ['destination' => $tripDestination]);
+            }
         }
 
         $userActivities = $activitiesRepository->findBy(['destination_filter' => $tripDestination]);
@@ -72,6 +92,7 @@ class ActivitiesController extends AbstractController
             'form' => $form->createView(),
             'userActivities' => $userActivities,
             'tripDestination' => $tripDestination,
+            'tripName' => $trip->getName(),
         ]);
     }
 
@@ -85,6 +106,7 @@ class ActivitiesController extends AbstractController
         $tripDestination = $request->get('destination');
         $trip = $tripRepository->findOneBy(['destination' => $tripDestination]);
         $activities = $activitiesRepository->findBy(['destination_filter' => $tripDestination, 'isPredefined' => 1]);
+
 
         if ($request->get("activityAdded")) {
             $activityIds = $request->get('activId');
@@ -122,7 +144,9 @@ class ActivitiesController extends AbstractController
             'activities' => $activities,
             'userActivities' => $userActivities,
             'add_activity' => $addActivity,
-            "tripDestination" => $tripDestination
+            "tripDestination" => $tripDestination,
+            'trip' => $trip,
+            'tripName' => $trip->getName(),
         ]);
     }
 

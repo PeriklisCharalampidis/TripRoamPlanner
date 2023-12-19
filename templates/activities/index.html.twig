@@ -7,18 +7,22 @@
 	<div class="pt-2 pb-5">
 		<div class="container">
 			<div id="liveAlertPlaceholder"></div>
-			<h1>Activities</h1>
+			<h1>Activities for "{{ tripName }}" to {{ tripDestination }}</h1> 
 			<a href="{{ path('app_activities_new', {'destination': tripDestination}) }}" class="btn btn-warning mb-2">Create new</a>
+			{% if trip is defined %}
+				<a class="btn btn-outline-dark" href="{{ path('app_trips_packinglist', {'id': trip.id}) }}">Packing List</a>
+				<a class="btn btn-outline-dark" href="{{ path('app_journal_trip', {'id': trip.id}) }}">Journal</a>
+			{% endif %}
+			
 
 			<div class="row">
 				<div class="col-md-8">
 					<div class="card">
 						<h5 class="card-header">My day-to-day activities</h5>
 						<!--might put 'for' here, before the card-body-->
-						<div class="card-body" id="ajax">
+						<div class="card-body customActivities" id="ajax">
 							{% for userActivity in userActivities %}
 								<h5 class="card-title">{{ userActivity.name }}</h5>
-								<p class="card-text">{{ userActivity.date ? userActivity.date|date('Y-m-d') : '' }}</p>
 								{# <a href="{{ path('app_activities_show') }}" class="btn btn-success">Show-link atm</a> #}
 							{% else %}
 								<div class="card-body">
@@ -38,7 +42,6 @@
 						{% for activity in activities %}
 							<div class="card-body">
 								<h5 class="card-title">{{ activity.name }}</h5>
-								<p class="card-text">{{ activity.date ? activity.date|date('Y-m-d') : '' }}</p>
 								<a href="{{ add_activity }}&activId={{ activity.id }}" class="btn btn-success">Add to my day-to-day</a>
 							</div>
 						{% else %}
