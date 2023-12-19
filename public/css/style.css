@@ -199,12 +199,49 @@ body {
   align-items: center;
 }
 
+.card {
+  position: relative;
+}
+#deleteForm {
+  position: absolute;
+  top: 5px;
+  right: 5px; 
+}
+.delete-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  display: flex;
+  background-color: red;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer; 
+}
+
+.btn-group-center {
+  display: flex;
+  justify-content: center;
+}
+
 .card-body .tripname {
   color: var(--orange);
   font-weight: bold;
   text-align: center;
+  padding: 0.5rem 0.5rem;
+  max-width: 200px;
+  overflow: hidden; 
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
+
+.card-body img {
+  object-fit: cover;
+}
 .card-body .destination {
   font-style: italic;
 }

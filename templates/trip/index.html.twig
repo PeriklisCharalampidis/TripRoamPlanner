@@ -8,12 +8,19 @@
 		<h1>Trips</h1>
 		<div class="container">
 
-			<div class="row row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-xs-1 ">
+			<div class="row row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-xs-1 justify-content-center">
 
 				{% for trip in trips %}
 
 					<div class="card m-2">
-
+						
+							<form id="deleteForm" method="post" action="{{ path('app_trip_delete', {'id': trip.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+									<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ trip.id) }}">
+									<button class="btn btn-danger delete-btn mt-2">
+										<img width="20" height="20" src="https://img.icons8.com/ios-filled/50/FFFFFF/waste.png" alt="waste"/>
+									</button>
+							</form>
+						
 						<div class="card-body text-center">
 							{% if trip.image is not null %}
 								<img class="card-img-top rounded" src="{{ asset('images/' ~ trip.image) }}" alt="Trip image">
@@ -28,7 +35,7 @@
 
 							{# <a class="btn btn-success" href="{{ path('app_trip_show', {'id': trip.id}) }}">Details</a> #}
 							{# <a class="btn btn-warning" href="{{ path('app_trip_edit', {'id': trip.id}) }}">edit</a> #}
-							<div class="btn-group">
+							<div class="btn-group btn-group-center">
 								<a class="btn btn-outline-dark tripBtn" href="{{ path('app_trip', {'destination': trip.destination}) }}">Itinerary</a>
 
 								<a class="btn btn-outline-dark tripBtn" href="{{ path('app_trips_packinglist', {'id': trip.id}) }}">Packing List</a>
@@ -49,4 +56,5 @@
 			
 		</div>
 	</div>
+	
 {% endblock %}
