@@ -136,6 +136,7 @@ class PakingListController extends AbstractController
             'id' => $tripId,
             'tripName' => $trip->getName(),
             'tripDestination' => $trip->getDestination(),
+            'trip'=> $trip,
         ]);
     }
 
