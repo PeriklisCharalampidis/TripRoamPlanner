@@ -6,7 +6,7 @@
 {% block body %}
 	<div class="pt-2 pb-5">
     <div class="container">
-        <h1 class="activ text-center">Activities for "{{ tripName }}"</h1>
+        <h1 class="activ text-center">Activities for <strong>{{ tripName }}</strong></h1>
 		<div class="links mb-4">
 			 {% if trip is defined %}
 			<a href="{{ path('app_activities_new', {'destination': tripDestination}) }}" class="btn btn-outline-dark createAct">Create new</a>

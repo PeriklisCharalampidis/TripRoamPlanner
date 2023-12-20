@@ -6,8 +6,8 @@
 <div class="container">
     <h1 class="activ text-center">Packing list for the trip <strong>{{ tripName }}</strong></h1>
     <div class="links mb-4">
-			<a class="btn btn-outline-dark btn-sm py-2" href="#">Activities</a>
-<a class="btn btn-outline-dark" href="{{ path('app_journal_trip', {'id': trip.id}) }}">Journal</a>		</div>
+			<a class="btn btn-outline-dark btn-sm py-2" href="{{ path('app_trip', {'destination': trip.destination}) }}">Activities</a>
+            <a class="btn btn-outline-dark" href="{{ path('app_journal_trip', {'id': trip.id}) }}">Journal</a>		</div>
     <div class="row">
         <div class="col-md-8">
             <div class="card">
