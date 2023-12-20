@@ -12,9 +12,9 @@
                     <div class="card-body text-center">
                         <h1 class="card-title activ">My blog posts of&nbsp;<strong>{{ trip.name }}</strong></h1>
                         <div class="button-group">
-                            <a class="btn sign-in" href="{{ path('app_journal_post_new', {'id': app.request.get('id')} ) }}">Create New Post</a>
+                            <a class="btn btn-outline-dark" href="{{ path('app_journal_post_new', {'id': app.request.get('id')} ) }}">Create New Post</a>
                             <!-- Share button with pop-up -->
-                            <button class="btn sign-in" onclick="openSharePopup()">Share</button>
+                            <button class="btn btn-outline-dark" onclick="openSharePopup()">Share</button>
                             <a class="btn btn-outline-dark" href="{{ path('app_trip', {'destination': trip.destination}) }}">Activities</a>
                             <a class="btn btn-outline-dark" href="{{ path('app_trips_packinglist', {'id': trip.id}) }}">Packing List</a>
                         </div>
@@ -55,7 +55,7 @@
                     <div class="card-body text-center">
                         <h1 class="card-title">My blog posts of&nbsp;<strong>{{ trip.name }}</strong></h1>
                         <div class="button-group">
-                            <a class="btn saveBtn" href="{{ path('app_journal_post_new', {'id': app.request.get('id')} ) }}">Create your first post</a>
+                            <a class="btn btn-outline-dark" href="{{ path('app_journal_post_new', {'id': app.request.get('id')} ) }}">Create your first post</a>
                             <a class="btn btn-outline-dark" href="{{ path('app_trip', {'destination': trip.destination}) }}">Activities</a>
                             <a class="btn btn-outline-dark" href="{{ path('app_trips_packinglist', {'id': trip.id}) }}">Packing List</a>
                         </div>
