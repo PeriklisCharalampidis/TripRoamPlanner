@@ -3,9 +3,13 @@
 {% block title %}New packing item{% endblock %}
 
 {% block body %}
-    <h1>Create new packing item for your trip</h1>
+    <h1 class="activ text-center">Create new packing item for your trip</h1>
+    <div class="container forms w-50">
+          {{ include('paking_list/_form.html.twig') }}
+     <div class="button-group text-center">
+        <a class="btn btn-outline-dark mt-2" href="{{ path('app_trips_packinglist', {'id': tripId}) }}">Back to list</a>
+    </div>
+    </div>
 
-    {{ include('paking_list/_form.html.twig') }}
-
-    <a href="{{ path('app_trips_packinglist', {'id': tripId}) }}">back to list</a>
+  
 {% endblock %}

@@ -6,12 +6,13 @@
 {% block body %}
 
 
-	<h1>Create new Trip</h1>
+	<h1 class="activ text-center">Create new Trip</h1>
 	<div
-		class="container">
+		class="container forms w-50">
 		{# <div class="d-flex justify-content-center"> #}
 		{{ include('trip/_form.html.twig') }}
-
-		<a href=" {{ path('app_trip_index', {'id': app.user.id}) }} ">Back to the trips</a>
+		<div class="button-group text-center">
+			<a class="btn btn-outline-dark mt-2" href=" {{ path('app_trip_index', {'id': app.user.id}) }} ">Back to the trips</a>
+		</div>
 	</div>
 {% endblock %}

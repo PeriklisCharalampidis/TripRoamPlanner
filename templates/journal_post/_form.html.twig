@@ -1,8 +1,8 @@
 {{ form_start(form) }}
     {{ form_widget(form) }}
     <div class="container-fluid d-flex justify-content-center">
-        <a class="btn btn-outline-primary rounded-1 mx-2 my-2" href="{{ path('app_journal_trip', {'id': trip.id}) }}">Back</a>
-        <button class="btn btn-outline-success rounded-1 mx-2 my-2">{{ button_label|default('Save') }}</button>
+        <a class="btn btn-outline-dark rounded-1 mx-2 my-2" href="{{ path('app_journal_trip', {'id': trip.id}) }}">Back</a>
+        <button class="btn saveBtn rounded-1 mx-2 my-2">{{ button_label|default('Save') }}</button>
     </div>
 {{ form_end(form) }}
 

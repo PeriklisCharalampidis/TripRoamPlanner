@@ -3,11 +3,16 @@
 {% block title %}Edit PackingList{% endblock %}
 
 {% block body %}
-    <h1>Edit PackingList</h1>
+    <h1 class="activ text-center">Edit Packing list</h1>
+    <div  class="container forms w-50">
+     {{ include('paking_list/_form.html.twig', {'button_label': 'Update'}) }}
+    <div class="text-center">
+         <a class="btn btn-outline-dark mt-2" href="{{ path('app_trips_packinglist', {"id" : id }) }}">Back to list</a>
 
-    {{ include('paking_list/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('app_trips_packinglist', {"id" : id }) }}">back to list</a>
-
+    </div>
+   
     {#{{ include('paking_list/_delete_form.html.twig') }}#}
+    </div>
+
+   
 {% endblock %}

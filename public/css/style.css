@@ -405,6 +405,31 @@ body {
   color: #fff;
 }
 
+/*forms*/
+
+.saveBtn {
+  background-color: var(--orange);
+  color: #fff;
+}
+
+.saveBtn:hover {
+  background-color: #fff;
+  color: var(--orange);
+  border: 1px solid var(--orange);
+}
+
+.forms input, textarea {
+  border-color: var(--orange);
+}
+
+.forms input:focus,
+.forms textarea:focus {
+  color: var(--orange);
+  background-color: #fff;
+  border-color: var(--orange);
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(247, 168, 144, 0.836);
+}
 
  
 /* footer */ 

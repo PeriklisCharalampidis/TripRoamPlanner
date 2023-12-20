@@ -10,33 +10,33 @@
                 <!-- Trip Header Image -->
                 <div class="card mb-4 border-0">
                     <div class="card-body text-center">
-                        <h1 class="card-title">My blog posts of&nbsp;<strong>{{ trip.name }}</strong></h1>
+                        <h1 class="card-title activ">My blog posts of&nbsp;<strong>{{ trip.name }}</strong></h1>
                         <div class="button-group">
-                            <a class="btn btn-primary" href="{{ path('app_journal_post_new', {'id': app.request.get('id')} ) }}">Create New Post</a>
+                            <a class="btn sign-in" href="{{ path('app_journal_post_new', {'id': app.request.get('id')} ) }}">Create New Post</a>
                             <!-- Share button with pop-up -->
-                            <button class="btn text-white btn-secondary" onclick="openSharePopup()">Share</button>
+                            <button class="btn btn-outline-dark" onclick="openSharePopup()">Share</button>
                         </div>
                     </div>
                     {% if trip.image is not null %}
-                        <img class="card-img-top rounded mx-auto d-block" style="object-fit: cover;" src="{{ asset('images/' ~ trip.image) }}" alt="Trip image">
+                        <img class="card-img-top rounded mx-auto d-block" style="object-fit: cover; width:50%;" src="{{ asset('images/' ~ trip.image) }}" alt="Trip image">
                     {% endif %}
                 </div>
                 <!-- Blog Post Entries -->
                 <div class="card mb-4 border-0">
-                    <div class="card-body rounded" style="background-color: lightgrey;">
+                    <div class="card-body rounded" style="background-color: #ffeedd;">
                         {% for journal_post in journal_posts|sort((b, a) => a.date <=> b.date) %}
-                            <div class="card mb-3">
+                            <div class="card mb-3" style="border-color: #f1bfa0;">
                                 <div class="row g-0">
                                     <div class="col-md-5">
                                         <img class="card-img" src="{{ asset('images/' ~ journal_post.image) }}" alt="Post Image">
                                     </div>
                                     <div class="col-md-7">
                                         <div class="card-body">
-                                            <h5 class="card-title mb-3 text-center">Post {{ journal_post.date ? journal_post.date|date('Y-m-d') : '' }}</h5>
+                                            <h5 class="card-title mt-3 mb-3 text-center">Post {{ journal_post.date ? journal_post.date|date('Y-m-d') : '' }}</h5>
                                             <p class="card-text">{{ journal_post.text }}</p>
-                                            <hr>
+                                            <hr style="border-color: #f1bfa0;">
                                             <div class="text-center">
-                                                <a class="btn btn-warning mx-1 my-2" href="{{ path('app_journal_post_edit', {'id': journal_post.id}) }}">Edit</a>
+                                                <a class="btn sign-in mx-1 my-2" href="{{ path('app_journal_post_edit', {'id': journal_post.id}) }}">Edit</a>
                                             </div>
                                         </div>
                                     </div>
@@ -53,7 +53,7 @@
                     <div class="card-body text-center">
                         <h1 class="card-title">My blog posts of&nbsp;<strong>{{ trip.name }}</strong></h1>
                         <div class="button-group">
-                            <a class="btn btn-primary" href="{{ path('app_journal_post_new', {'id': app.request.get('id')} ) }}">Create your first post</a>
+                            <a class="btn saveBtn mt-2" href="{{ path('app_journal_post_new', {'id': app.request.get('id')} ) }}">Create your first post</a>
                         </div>
                     </div>
                 </div>
