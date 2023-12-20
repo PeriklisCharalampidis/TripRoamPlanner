@@ -94,23 +94,23 @@
         }
 
         function resetCopyButton() {
-            var copyButton = document.getElementById('copyButton');
+            let copyButton = document.getElementById('copyButton');
             copyButton.innerText = 'Copy Url';
             copyButton.disabled = false;
         }
 
         function copyToClipboard() {
-            var urlElement = document.getElementById('url');
-            var urlText = urlElement.innerText;
+            let urlElement = document.getElementById('url');
+            let urlText = urlElement.innerText;
 
-            var textarea = document.createElement('textarea');
+            let textarea = document.createElement('textarea');
             textarea.value = urlText;
             document.body.appendChild(textarea);
             textarea.select();
             document.execCommand('copy');
             document.body.removeChild(textarea);
 
-            var copyButton = document.getElementById('copyButton');
+            let copyButton = document.getElementById('copyButton');
             copyButton.innerText = 'Copied!';
             copyButton.disabled = true;
         }
