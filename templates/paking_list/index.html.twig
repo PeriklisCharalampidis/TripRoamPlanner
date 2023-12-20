@@ -50,11 +50,11 @@
                                     <a href="{{ path('app_paking_list_edit', {'id': packing_item.id}) }}" class="btn btn-sm btn-outline-dark">edit</a>
                                 {% endif %}
                             </td>
-                            <td class="col-2">
+{#                            <td class="col-2">
                                 {% if packing_item.isPredefined == false %}
                                     {{ include('paking_list/_delete_form.html.twig') }}
                                 {% endif %}
-                            </td>
+                            </td>#}
                         </tr>
                     {% else %}
                         <li>no records found</li>
