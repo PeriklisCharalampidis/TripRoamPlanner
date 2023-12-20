@@ -8,6 +8,7 @@ use App\Entity\TripPackingListItem;
 use App\Form\PakingListType;
 
 use App\Repository\PakingListRepository;
+use App\Repository\TripPackingListItemRepository;
 use App\Repository\TripRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,9 +21,10 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class PakingListController extends AbstractController
 {
     #[Route('/mytrip/{id}/new', name: 'app_packingItem_new', methods: ['GET', 'POST'])]
-    public function new(TripRepository $tripRepository,Trip $trip,Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Trip $trip, Request $request, EntityManagerInterface $entityManager): Response
     {
         $pakingList = new PakingList();
+        $addingPakingListItem = new TripPackingListItem();
         $pakingList->setIsPredefined(false); // Set the default value here
         $customFilter = 'custom_' . $trip->getId();
         $pakingList->setSeasonFilter($customFilter);
@@ -35,33 +37,27 @@ class PakingListController extends AbstractController
             $entityManager->flush();
 
             // Ensure the trip exists
-            if ($trip) {
+            if ($addingPakingListItem) {
                 // Associate the packing item with the trip
-                $trip->addFkPakingList($pakingList);
-                $entityManager->persist($trip);
+                $addingPakingListItem->setTrip($trip);
+                $addingPakingListItem->setPakingList($pakingList);
+                $entityManager->persist($addingPakingListItem);
                 $entityManager->flush();
             }
 
             return $this->redirectToRoute('app_trips_packinglist', [
                 'id' => $trip->getId(),
-                ], Response::HTTP_SEE_OTHER);
+            ], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('paking_list/new.html.twig', [
             'paking_list' => $pakingList,
             'form' => $form->createView(),
-            /*'season' => $trip_season,*/
             'tripId' => $trip->getId(),
         ]);
     }
     #[Route('/mytrip/{id}', name: 'app_trips_packinglist', methods: ['GET', 'POST'])]
-    public function userTrip(
-        PakingListRepository $packingListRepository,
-
-        Trip $trip,
-        Request $request,
-        EntityManagerInterface $entityManager
-    ): Response
+    public function userTrip(PakingListRepository $packingListRepository, Trip $trip, Request $request, EntityManagerInterface $entityManager): Response
     {
         $customFilter = 'custom_' . $trip->getId();
 
@@ -77,8 +73,6 @@ class PakingListController extends AbstractController
         $winterStartMonth = 11;
         $winterEndMonth = 4;
 
-        /*$season = 'any';*/
-
         if ($tripDateBeginMonth >= $summerStartMonth && $tripDateEndMonth <= $summerEndMonth) {
             $season = 'summer';
         } elseif ($tripDateBeginMonth >= $winterStartMonth || $tripDateEndMonth <= $winterEndMonth) {
@@ -89,11 +83,9 @@ class PakingListController extends AbstractController
             $season,
             'any',
             $customFilter,
-            ]];
-        /*dd($criteria);*/
+        ]];
 
         $packing_items = $packingListRepository->findBy($criteria);
-        /*$packing_items = $packingListRepository->findAll();*/
 
         if ($request->get("packingItemAdded")) {
             $packingItemIds = $request->get('packingItemId');
@@ -114,7 +106,6 @@ class PakingListController extends AbstractController
                     $entityManager->persist($tripPackingListItem);
                 }
             }
-
             $entityManager->flush();
 
             return $this->redirectToRoute("app_trips_packinglist", ["id" => $trip->getId()]);
@@ -132,32 +123,16 @@ class PakingListController extends AbstractController
             ->getQuery()
             ->getResult();
 
-/*        dd($userPackingItems);*/
-
-        // $userId = $this->getUser()->getUserIdentifier();
-
-        $addPackingItem = $this->generateUrl('app_trips_packinglist',[
+        $addPackingItem = $this->generateUrl('app_trips_packinglist', [
             "packingItemAdded" => true,
-
-             'id' => $trip->getId()
-               ],UrlGeneratorInterface::ABSOLUTE_PATH);
-
-        // a reroute to the same page here so to reload the page without all the url-stuff?
-
-        /*foreach ($packing_items as $packing_item) {
-            $deleteForm = $this->renderView('paking_list/_delete_form.html.twig', [
-                'packing_item' => $packing_item,
-                'id' => $tripId,
-            ]);
-
-            $packing_item->deleteForm = $deleteForm;
-        }*/
+            'id' => $trip->getId()
+        ], UrlGeneratorInterface::ABSOLUTE_PATH);
 
         return $this->render('paking_list/index.html.twig', [
             'packing_items' => $packing_items,
             'userPackingItems' => $userPackingItems,
             'add_packing_item' => $addPackingItem,
-            'season' => 'custom',
+            /*'season' => 'custom',*/
             'id' => $tripId,
             'tripName' => $trip->getName(),
             'tripDestination' => $trip->getDestination(),
@@ -165,9 +140,17 @@ class PakingListController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_paking_list_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Trip $trip, PakingList $pakingList, EntityManagerInterface $entityManager): Response
+    public function edit(PakingList $pakingList, Request $request, EntityManagerInterface $entityManager, TripPackingListItemRepository $tripPackingListItemRepository): Response
     {
-        $tripId = $trip->getId();
+        $trips = $tripPackingListItemRepository->findBy(["pakingList" => $pakingList]);
+        if (is_array($trips)) {
+            foreach ($trips as $trip) {
+                if ($trip->getTrip()->getFkUser() == $this->getUser()) {
+                    $tripId = $trip->getTrip()->getId();
+                }
+            }
+        }
+
 
         $form = $this->createForm(PakingListType::class, $pakingList);
         $form->handleRequest($request);
@@ -176,37 +159,44 @@ class PakingListController extends AbstractController
             $entityManager->flush();
 
             return $this->redirectToRoute('app_trips_packinglist', [
-                /*'season' => $trip_season,*/
-                /*'tripId' => $tripId,*/
+                'id' => $tripId
             ], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('paking_list/edit.html.twig', [
             'paking_list' => $pakingList,
             'form' => $form,
-            /*'tripId' => $tripId,*/
-            /*'season' => $trip_season,*/
+            'id' => $tripId
+
         ]);
     }
 
     #[Route('/{id}', name: 'app_paking_list_delete', methods: ['POST'])]
-    public function delete(Request $request,Trip $trip, PakingList $pakingList, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, PakingList $pakingList, EntityManagerInterface $entityManager, TripPackingListItemRepository $tripPackingListItemRepository): Response
     {
-        $tripId = $trip->getId();
+        $trips = $tripPackingListItemRepository->findBy(["pakingList" => $pakingList]);
+        if (is_array($trips)) {
+            foreach ($trips as $trip) {
+                if ($trip->getTrip()->getFkUser() == $this->getUser()) {
+                    $tripId = $trip->getTrip()->getId();
+                }
+            }
+        }
 
-        if ($this->isCsrfTokenValid('delete'.$pakingList->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $pakingList->getId(), $request->request->get('_token'))) {
+
             $entityManager->remove($pakingList);
             $entityManager->flush();
         }
 
         return $this->redirectToRoute('app_trips_packinglist', [
-            'tripId' => $tripId,
+            'id' => $tripId,
         ], Response::HTTP_SEE_OTHER);
     }
 
     // increase and decrease the count value in TripPackingListItem
-    #[Route('/increase-count/{id}', name: 'app_increase_count', methods: ['GET','POST'])]
-    public function increaseCount( TripPackingListItem $tripPackingListItem, EntityManagerInterface $entityManager): Response
+    #[Route('/increase-count/{id}', name: 'app_increase_count', methods: ['GET', 'POST'])]
+    public function increaseCount(TripPackingListItem $tripPackingListItem, EntityManagerInterface $entityManager): Response
     {
         if ($tripPackingListItem) {
             $tripPackingListItem->setCount($tripPackingListItem->getCount() + 1);
@@ -218,11 +208,16 @@ class PakingListController extends AbstractController
         ]);
     }
 
-    #[Route('/decrease-count/{id}', name: 'app_decrease_count', methods: ['GET','POST'])]
-    public function decreaseCount(TripPackingListItem $tripPackingListItem, EntityManagerInterface $entityManager): Response
+    #[Route('/decrease-count/{id}', name: 'app_decrease_count', methods: ['GET', 'POST'])]
+    public function decreaseCount(TripPackingListItem $tripPackingListItem, EntityManagerInterface $entityManager, TripPackingListItemRepository $tripPackingListItemRepository): Response
     {
-        if ($tripPackingListItem && $tripPackingListItem->getCount() > 0) {
+
+        if ($tripPackingListItem && $tripPackingListItem->getCount() > 1) {
             $tripPackingListItem->setCount($tripPackingListItem->getCount() - 1);
+            $entityManager->flush();
+        } elseif ($tripPackingListItem && $tripPackingListItem->getCount() == 1) {
+            // delete item from TripPackingListItem entity
+            $entityManager->remove($tripPackingListItem);
             $entityManager->flush();
         }
 

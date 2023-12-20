@@ -21,20 +21,13 @@ class PakingList
     #[ORM\Column]
     private ?bool $isPredefined = null;
 
-    #[ORM\ManyToMany(targetEntity: Trip::class, mappedBy: 'fk_paking_list')]
-    private Collection $fk_trips;
+
 
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $season_filter = null;
 
-    #[ORM\ManyToMany(targetEntity: TripPackingListItem::class, mappedBy: "pakingList")]
-    private Collection $tripPackingListItems;
 
-    public function __construct()
-    {
-        $this->fk_trips = new ArrayCollection();
-        $this->tripPackingListItems = new ArrayCollection();
-    }
+
 
     public function getId(): ?int
     {
@@ -65,32 +58,10 @@ class PakingList
         return $this;
     }
 
-    /**
-     * @return Collection<int, Trip>
-     */
-    public function getFkTrips(): Collection
-    {
-        return $this->fk_trips;
-    }
 
-    public function addFkTrip(Trip $fkTrip): static
-    {
-        if (!$this->fk_trips->contains($fkTrip)) {
-            $this->fk_trips->add($fkTrip);
-            $fkTrip->addFkPakingList($this);
-        }
 
-        return $this;
-    }
 
-    public function removeFkTrip(Trip $fkTrip): static
-    {
-        if ($this->fk_trips->removeElement($fkTrip)) {
-            $fkTrip->removeFkPakingList($this);
-        }
 
-        return $this;
-    }
 
     public function getSeasonFilter(): ?string
     {
@@ -103,15 +74,4 @@ class PakingList
 
         return $this;
     }
-
-    public function getTripPackingListItems(): Collection
-    {
-        return $this->tripPackingListItems;
-    }
-
-    public function setTripPackingListItems(Collection $tripPackingListItems): void
-    {
-        $this->tripPackingListItems = $tripPackingListItems;
-    }
-
 }

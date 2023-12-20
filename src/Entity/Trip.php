@@ -33,8 +33,6 @@ class Trip
     #[ORM\ManyToMany(targetEntity: Activities::class, inversedBy: 'fk_trips', cascade: ['persist'])]
     private Collection $fk_activities;
 
-    #[ORM\ManyToMany(targetEntity: PakingList::class, inversedBy: 'fk_trips')]
-    private Collection $fk_paking_list;
 
     #[ORM\OneToMany(mappedBy: 'fk_trip', targetEntity: JournalPost::class)]
     private Collection $fk_journal_post;
@@ -48,7 +46,6 @@ class Trip
     public function __construct()
     {
         $this->fk_activities = new ArrayCollection();
-        $this->fk_paking_list = new ArrayCollection();
         $this->fk_journal_post = new ArrayCollection();
     }
 
@@ -125,30 +122,6 @@ class Trip
     public function removeFkActivity(Activities $fkActivity): static
     {
         $this->fk_activities->removeElement($fkActivity);
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, PakingList>
-     */
-    public function getFkPakingList(): Collection
-    {
-        return $this->fk_paking_list;
-    }
-
-    public function addFkPakingList(PakingList $fkPakingList): static
-    {
-        if (!$this->fk_paking_list->contains($fkPakingList)) {
-            $this->fk_paking_list->add($fkPakingList);
-        }
-
-        return $this;
-    }
-
-    public function removeFkPakingList(PakingList $fkPakingList): static
-    {
-        $this->fk_paking_list->removeElement($fkPakingList);
 
         return $this;
     }

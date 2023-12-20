@@ -17,7 +17,7 @@ class TripPackingListItem
     #[ORM\JoinColumn(nullable: false)]
     private ?Trip $trip;
 
-    #[ORM\ManyToOne(targetEntity: PakingList::class, inversedBy: "tripPackingListItems")]
+    #[ORM\ManyToOne(targetEntity: PakingList::class)]
     #[ORM\JoinColumn(nullable: false)]
     private ?PakingList $pakingList;
 
