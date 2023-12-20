@@ -364,7 +364,46 @@ body {
   color: #fff;
  }
 
-/*registration*/
+/*activities, packing list*/
+
+.activ {
+  font-family: 'Ubuntu', sans-serif;
+  padding-bottom: 2rem;
+  padding-top: 2rem;
+}
+
+.table {
+  border-bottom: 1px solid #f1bfa0;
+  line-height: normal;
+}
+
+.table td {
+  padding-bottom: 0;
+  margin-bottom: 0;
+  align-items: center;
+  align-self: center;
+}
+
+.table tbody tr:last-child {
+  border-bottom: 1px solid #fff;
+}
+
+.card-header {
+  background-color: #ffeedd;
+  border: 1px solid #f1bfa0;
+}
+
+.addAct {
+ background-color: #fff;
+ border: 1px solid var(--orange);
+ color: var(--orange);
+ font-weight: bold;
+}
+
+.addAct:hover {
+  background-color: var(--orange);
+  color: #fff;
+}
 
 
  

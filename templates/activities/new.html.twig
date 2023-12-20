@@ -4,12 +4,12 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Create custom activities for "{{ tripName }}" to {{ tripDestination }}</h1>
+    <h1 class="activ text-center">Create custom activities for "{{ tripName }}" to {{ tripDestination }}</h1>
     <div class="container">
         {{ include('activities/_form.html.twig') }}
 
         {% if tripDestination is defined %}
-            <a class="btn btn-success mt-2" href="{{ path('app_trip', {'destination': tripDestination}) }}">Back to the trips</a>
+            <a class="btn btn-outline-dark mt-2" href="{{ path('app_trip', {'destination': tripDestination}) }}">Back to the trips</a>
         {% endif %}
     </div>
 {% endblock %}

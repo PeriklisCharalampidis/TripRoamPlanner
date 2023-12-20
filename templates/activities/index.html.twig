@@ -5,76 +5,132 @@
 
 {% block body %}
 	<div class="pt-2 pb-5">
-		<div class="container">
-			<div id="liveAlertPlaceholder"></div>
-			<h1>Activities for "{{ tripName }}" to {{ tripDestination }}</h1> 
-			<a href="{{ path('app_activities_new', {'destination': tripDestination}) }}" class="btn btn-warning mb-2">Create new</a>
-			{% if trip is defined %}
-				<a class="btn btn-outline-dark" href="{{ path('app_trips_packinglist', {'id': trip.id}) }}">Packing List</a>
-				<a class="btn btn-outline-dark" href="{{ path('app_journal_trip', {'id': trip.id}) }}">Journal</a>
-			{% endif %}
-			
-
-			<div class="row">
-				<div class="col-md-8">
-					<div class="card">
-						<h5 class="card-header">My day-to-day activities</h5>
-						<!--might put 'for' here, before the card-body-->
-						<div class="card-body customActivities" id="ajax">
-							{% for userActivity in userActivities %}
-								<h5 class="card-title">{{ userActivity.name }}</h5>
-								{# <a href="{{ path('app_activities_show') }}" class="btn btn-success">Show-link atm</a> #}
-							{% else %}
-								<div class="card-body">
-									<p>Nothing here yet</p>
-								</div>
-							{% endfor %}
-						</div>
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div
-						class="card" style="width: 100%;">
-						<!-- Adjust width as needed -->
-						<div class="card-header">
-							Our activity suggestions
-						</div>
-						{% for activity in activities %}
-							<div class="card-body">
-								<h5 class="card-title">{{ activity.name }}</h5>
-								<a href="{{ add_activity }}&activId={{ activity.id }}" class="btn btn-success">Add to my day-to-day</a>
-							</div>
-						{% else %}
-							<div class="card-body">
-								<p>No suggested activities found</p>
-							</div>
-						{% endfor %}
-					</div>
-				</div>
+    <div class="container">
+        <h1 class="activ text-center">Activities for "{{ tripName }}" to {{ tripDestination }}</h1>
+		<div class="links mb-4">
+			 {% if trip is defined %}
+			<a href="{{ path('app_activities_new', {'destination': tripDestination}) }}" class="btn btn-outline-dark createAct">Create new</a>
+            <a class="btn btn-outline-dark" href="{{ path('app_trips_packinglist', {'id': trip.id}) }}">Packing List</a>
+            <a class="btn btn-outline-dark" href="{{ path('app_journal_trip', {'id': trip.id}) }}">Journal</a>
+        {% endif %}
+		</div>
+        <div class="row">
+            <div class="col-md-8">
+				<div class="card act mt-2" style="border-color: #f1bfa0;">
+					
+						<h5 class="card-header text-center py-2">My activities</h5>
+						
+						<table class="table customActivities">
+							<tbody>
+								{% for userActivity in userActivities %}
+									<tr>
+										<td><p>{{ userActivity.name }}</p></td>
+										{# <a href="{{ path('app_activities_show') }}" class="btn btn-success">Show-link atm</a> #}
+									</tr>
+								{% else %}
+									<tr>
+										<td>Nothing here yet</td>
+									</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+				</div> 
 			</div>
 
-		</div>
-	</div>
+            <div class="col-md-4">
+				<div class="card act mt-2" style="border-color: #f1bfa0;">
+					<h5 class="card-header text-center py-2">
+						Our activity suggestions
+					</h5>
+
+					<table class="table">
+						<tbody>
+							{% for activity in activities %}
+							<tr>
+								<td class="col-6">
+									<p>{{ activity.name }}</p>
+								</td>
+								<td class="col-2 text-end">
+									<a href="{{ add_activity }}&activId={{ activity.id }}" class="btn btn-sm addAct">+</a>
+								</td>
+							</tr>
+							{% else %}
+							<tr>
+								<td colspan="2">No suggested activities found</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+</div>
+        </div>
+    </div>
+</div>
+<!--google maps-->
 	<div id="map" style="height: 200px"></div>
-	{% block javascripts %}
-		<script>
-
-			var map;
-
-function initMap() {
-
-map = new google.maps.Map(document.getElementById('map'), {
-
-center: {
-lat: 48.20849,
-lng: 16.37208
-},
-zoom: 8
-
-});
-
-}
-		</script>
-
-	{% endblock %}
+	
 {% endblock %}
+
+{% block importmap %}
+    {{ importmap('app') }}
+    {#<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GEOCODING_API_KEY&callback=initMap" async defer></script>#}
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBtjaD-saUZQ47PbxigOg25cvuO6_SuX3M&callback=initMap" async defer></script>
+    <script>
+
+       let map;
+       let lat1;
+       let lng1;
+
+       const cities = [
+          { name: 'Vienna, Austria', latitude: 48.20849, longitude: 16.37208 },
+          { name: 'Bali, Indonesia', latitude: -8.409518, longitude: 115.188919 },
+          { name: 'Tokyo, Japan', latitude: 35.6895, longitude: 139.6917 },
+          { name: 'Swiss Alps, Switzerland', latitude:46.8182, longitude: 8.2275 },
+          { name: 'Marrakech, Morocco', latitude: 31.6295, longitude: -7.9811 },
+          { name: 'California, USA', latitude: 36.7783, longitude: -119.4179 },
+          { name: 'Kruger National Park, South Africa', latitude: -23.988385, longitude: 31.55474 },
+          { name: 'Barcelona, Spain', latitude:  41.3851, longitude: 2.1734 },
+          { name: 'Greek Islands, Greece', latitude:  37.9840, longitude: 23.7275 },
+          { name: 'Lapland, Finland', latitude: 66.4970, longitude: 25.7247 },
+          { name: 'Rome, Italy', latitude: 41.9028, longitude: 12.4964 },
+          { name: 'Serengeti, Tanzania', latitude: -2.1540, longitude: 34.6857 },
+          { name: 'Beijing, China', latitude: 39.9042, longitude: 116.4074 },
+          { name: 'Santorini, Greece', latitude: 36.3932, longitude: 25.4615 },
+          { name: 'Grand Canyon, USA', latitude: 36.0556, longitude: -112.1216 },
+          // Add more cities as needed
+       ];
+
+       const tripDestination = {{ tripDestination | json_encode | raw }};
+
+       for (const city of cities) {
+          if (tripDestination === city.name) {
+             lat1 = city.latitude;
+             lng1 = city.longitude;
+             break; // Stop the loop once the matching city is found
+          }
+       }
+
+       function initMap() {
+
+          map = new google.maps.Map(document.getElementById('map'), {
+             center: {
+                lat: lat1,
+                lng: lng1,
+             },
+             zoom: 8
+          });
+       }
+       // Ensure that the initMap function is called when the document is ready
+       document.addEventListener('DOMContentLoaded', function() {
+          initMap();
+       });
+    </script>
+
+{% endblock %}
+
+
+
+
+
+
+

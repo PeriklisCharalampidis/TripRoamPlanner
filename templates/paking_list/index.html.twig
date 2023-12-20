@@ -4,23 +4,27 @@
 
 {% block body %}
 <div class="container">
-    <h1>Packing list for the trip "{{ tripName }}" to {{ tripDestination }}</h1>
+    <h1 class="activ text-center">Packing list for the trip "{{ tripName }}" to {{ tripDestination }}</h1>
+    <div class="links mb-4">
+			<a class="btn btn-outline-dark btn-sm py-2" href="#">Activities</a>
+            <a class="btn btn-outline-dark" href="#">Journal</a>
+		</div>
     <div class="row">
         <div class="col-md-8">
             <div class="card">
-                <h5 class="card-header">my chosen packing items</h5>
+                <h5 class="card-header">My chosen packing items</h5>
                 <table class="table">
                     <tbody>
                     {% for userPackingItem in userPackingItems %}
                         <tr>
-                            <td>{{ userPackingItem.pakingList.name }}</td>
+                            <td><p>{{ userPackingItem.pakingList.name }}</p></td>
                             <td>
                                 {#<button type="button" class="btn btn-sm btn-warning" onclick="decreaseCount({{ userPackingItem.id }})">-</button>#}
-                                <a href="{{ path('app_decrease_count', {'id': userPackingItem.id}) }}" type="button" class="btn btn-sm btn-warning">-</a>
+                                <a href="{{ path('app_decrease_count', {'id': userPackingItem.id}) }}" type="button" class="btn btn-sm btn-outline-dark">-</a>
                                 {% set myCount = userPackingItem.count %}
                                 count: {{ myCount }}
                                 {#<button type="button" class="btn btn-sm btn-warning" onclick="increaseCount({{ userPackingItem.id }})">+</button>#}
-                                <a href="{{ path('app_increase_count', {'id': userPackingItem.id}) }}" type="button" class="btn btn-sm btn-warning">+</a>
+                                <a href="{{ path('app_increase_count', {'id': userPackingItem.id}) }}" type="button" class="btn btn-sm btn-outline-dark">+</a>
                             </td>
                         </tr>
                     {% else %}
@@ -34,21 +38,21 @@
         </div>
         <div class="col-md-4">
             <div class="card">
-                <h5 class="card-header">our packing item suggestions</h5>
+                <h5 class="card-header">Our packing item suggestions</h5>
                 <table class="table">
                     <tbody>
                     {% for packing_item in packing_items %}
                         <tr>
                             <td class="col-6">
-                                {{ packing_item.name }}
+                                <p>{{ packing_item.name }}</p>
                             </td>
-                            <td class="col-2">
-                                <a href="{{ add_packing_item }}&packingItemId={{ packing_item.id }}" class="btn btn-sm btn-success">add</a>
-                            </td>
-                            <td class="col-2">
-                                {% if packing_item.isPredefined == false %}
-                                    <a href="{{ path('app_paking_list_edit', {'id': packing_item.id}) }}" class="btn btn-sm btn-outline-dark">edit</a>
+                            <td class="col-2 text-end">
+                                 {% if packing_item.isPredefined == false %}
+                                    <a href="{{ path('app_paking_list_edit', {'id': packing_item.id}) }}" class="btn btn-sm btn-outline-dark">Edit</a>
                                 {% endif %}
+                            </td>
+                            <td class="col-2">
+                                <a href="{{ add_packing_item }}&packingItemId={{ packing_item.id }}" class="btn btn-sm addAct">+</a>
                             </td>
 {#                            <td class="col-2">
                                 {% if packing_item.isPredefined == false %}
@@ -57,11 +61,11 @@
                             </td>#}
                         </tr>
                     {% else %}
-                        <li>no records found</li>
+                        <li>No records found</li>
                     {% endfor %}
                     </tbody>
                 </table>
-                <a href="{{ path('app_packingItem_new', {'id': id}) }}" class="btn btn-warning m-2">Create new</a>
+                <a href="{{ path('app_packingItem_new', {'id': id}) }}" class="btn btn-outline-dark m-2">Create new</a>
             </div>
         </div>
     </div>
