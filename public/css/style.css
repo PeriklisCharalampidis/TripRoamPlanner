@@ -34,7 +34,8 @@ body {
   color: #fff;
 }
 
-.navbar .nav-item .leftlink {
+.navbar .nav-item .leftlink,
+#logout {
   color: var(--orange);
   font-weight: bold;
 }
@@ -55,6 +56,18 @@ body {
 
 @media(max-width: 768px) {
   .navbar .nav-item .leftlink {
+    color: #fff;
+  }
+
+  .navbar .nav-item .logged-in,
+  #logout {
+    color: #fff;
+  }
+}
+
+@media(max-width: 991px) {
+  .navbar .nav-item .logged-in,
+  #logout {
     color: #fff;
   }
 }
@@ -186,7 +199,6 @@ body {
 
 /*my trips*/
 .myTrips h1 {
-  color: var(--orange);
   font-family: 'Ubuntu', sans-serif;
   justify-content: center;
   text-align: center;
