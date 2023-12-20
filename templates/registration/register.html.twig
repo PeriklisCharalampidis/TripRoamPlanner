@@ -3,11 +3,11 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
-<div class="container-fluid pt-4">
+<div class="container-fluid pt-4 pb-4">
     <div class="col col-sm-10 col-md-8 col-lg-6 mx-auto">
-        <h1>Register</h1>
+        <h1 class="text-center si" style="color:#fc2f00;">Register</h1>
         {{ form_errors(registrationForm) }}
-        <div class="container-fluid border bg-light my-2">
+        <div class="container-fluid reg-form my-2">
             {{ form_start(registrationForm) }}
                 {{ form_label(registrationForm.first_name) }}
                 {{ form_widget(registrationForm.first_name, { attr: { 'class': 'form-control' }  })}}
@@ -43,7 +43,7 @@
                 {{ form_errors(registrationForm.agreeTerms) }}
             </div>
             <div class="w-100 d-flex justify-content-center">
-                <button type="submit" class="btn btn-outline-primary rounded-1 mx-2 my-2">Register</button>
+                <button type="submit" class="btn reg rounded-1 mx-2 my-2">Register</button>
             </div>
         {{ form_end(registrationForm) }}
                     
