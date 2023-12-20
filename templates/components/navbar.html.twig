@@ -17,7 +17,10 @@
 					</li>
 
 					<li class="nav-item">
-						<a class="nav-link active" aria-current="page" href="{{ path('app_user_show') }}">My account
+						<a class="nav-link active" aria-current="page" href="{{ path('app_user_show') }}">My account</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link active" aria-current="page">
 							{% if app.user is not null %}
 
 
@@ -39,39 +42,39 @@
 							{% else %}
 								<p>User not logged in or does not exist.</p>
 							{% endif %}
-						</a>
+						</li>
 					</li>
-					{% if is_granted("ROLE_ADMIN") %}
+				</a>
+				{% if is_granted("ROLE_ADMIN") %}
 					<li class="nav-item">
 						<a class="nav-link active" aria-current="page" href="{{ path('admin_admin') }}">Admin Dashboard</a>
 					</li>
-					{% endif %}
-				</a>
-			</li>
-		{% endif %}
-		{# dropdown was here #}
-	</ul>
-	<ul class="navbar-nav mb-2 mb-lg-0">
-		{% if app.user %}
-			<li class="nav-item d-flex nav-text">
-				<p class="align-self-center m-0 ">You're logged in as
-					<strong>{{ app.user.email }}</strong>
-				</p>
-			</li>
-		{% endif %}
-	</ul>
-	<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-		{% if app.user %}
-			<li class="nav-item d-flex">
-				<a class="nav-link align-self-center" href="/logout" style="color: #fc2f00; font-weight:bold;">Logout</a>
-			</li>
-		{% else %}
-			<li class="nav-item d-flex me-2">
-				<a class="nav-link align-self-center leftlink" href="{{ path('app_login') }}">Login</a>
-			</li>
-			<li class="nav-item d-flex me-2">
-				<a class="nav-link align-self-center leftlink" href="{{ path('app_register') }}">Register</a>
-			</li>
-		{% endif %}
-	</ul>
-</div></div></nav><!-- -------------- --><!-- ---- main ---- --><!-- -------------- -->
+				{% endif %}
+			</a>
+		</li>
+	{% endif %}
+	{# dropdown was here #}
+</ul>
+<ul class="navbar-nav mb-2 mb-lg-0">
+	{% if app.user %}
+		<li class="nav-item d-flex nav-text">
+			<p class="align-self-center m-0 ">You're logged in as
+				<strong>{{ app.user.email }}</strong>
+			</p>
+		</li>
+	{% endif %}
+</ul>
+<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+	{% if app.user %}
+		<li class="nav-item d-flex">
+			<a class="nav-link align-self-center" href="/logout" style="color: #fc2f00; font-weight:bold;">Logout</a>
+		</li>
+	{% else %}
+		<li class="nav-item d-flex me-2">
+			<a class="nav-link align-self-center leftlink" href="{{ path('app_login') }}">Login</a>
+		</li>
+		<li class="nav-item d-flex me-2">
+			<a class="nav-link align-self-center leftlink" href="{{ path('app_register') }}">Register</a>
+		</li>
+	{% endif %}
+</ul></div></div></nav><!-- -------------- --><!-- ---- main ---- --><!-- -------------- -->
