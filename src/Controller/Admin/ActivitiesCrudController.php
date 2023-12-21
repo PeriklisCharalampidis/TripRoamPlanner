@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use App\Entity\Activities;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
@@ -13,6 +14,14 @@ class ActivitiesCrudController extends AbstractCrudController
     public static function getEntityFqcn(): string
     {
         return Activities::class;
+    }
+
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            ->setPageTitle('index', 'Activities')
+            ->setDateFormat('YYYY-mm-dd')
+            ->setDateTimeFormat('YYYY-mm-dd');
     }
 
     /*
